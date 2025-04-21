@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +11,7 @@
       text-align: center;
       margin-top: 20px;
     }
+
     .grid {
       display: grid;
       grid-template-columns: repeat(3, 100px);
@@ -17,6 +19,7 @@
       justify-content: center;
       margin-top: 20px;
     }
+
     .pattern {
       width: 100px;
       height: 100px;
@@ -28,11 +31,13 @@
       cursor: pointer;
       transition: transform 0.2s;
     }
+
     .pattern:hover {
       transform: scale(1.1);
     }
   </style>
 </head>
+
 <body>
   <h1>Odd One Out</h1>
   <p id="level">Level: 1</p>
@@ -41,82 +46,191 @@
 
   <script>
     let level = 1;
+    let difficulty = 5;
+    let totalElements = 9;
 
-    function generatePatterns(level) {
-        const grid = document.getElementById('grid');
-        grid.innerHTML = ''; // Clear previous patterns
-        var elements = [];
-        var totalPatterns = 9;
-        var baseColor = getRandomColor();
-        var oddColor = getRandomColor();
-        var baseShape = getRandomShape();
-        var oddShape = getRandomShape();
+    // Define the Element struct
+    function Element(shape, pattern, color) {
+      this.shape = shape;
+      this.pattern = pattern;
+      this.color = color;
+    }
 
-        // Ensure oddColor and oddShape are different from baseColor and baseShape
-        while (oddColor === baseColor) {
-            oddColor = getRandomColor();
+    function generateLevel(level, difficulty) {
+      const grid = document.getElementById('grid');
+      grid.innerHTML = ''; // Clear previous patterns
+
+      var oddOneOutIndex = Math.floor(Math.random() * totalElements);
+      var elements = createElements(oddOneOutIndex, difficulty);
+
+      for (let i = 0; i < totalElements; i++) {
+        const pattern = document.createElement('div');
+        pattern.classList.add('pattern');
+
+        /*
+        // Set the odd one out
+        if (i === oddIndex) {
+          pattern.style.backgroundColor = oddColor;
+          pattern.textContent = oddShape;
+          pattern.onclick = () => nextLevel(true);
+        } else {
+          pattern.style.backgroundColor = baseColor;
+          pattern.textContent = baseShape;
+          pattern.onclick = () => nextLevel(false);
         }
-        while (oddShape === baseShape) {
-            oddShape = getRandomShape();
-        }
 
-        // Randomly choose the odd one out position
-        const oddIndex = Math.floor(Math.random() * totalPatterns);
-
-        for (let i = 0; i < totalPatterns; i++) {
-            const pattern = document.createElement('div');
-            pattern.classList.add('pattern');
-
-            // Set the odd one out
-            if (i === oddIndex) {
-            pattern.style.backgroundColor = oddColor;
-            pattern.textContent = oddShape;
-            pattern.onclick = () => nextLevel(true);
-            } else {
-            pattern.style.backgroundColor = baseColor;
-            pattern.textContent = baseShape;
-            pattern.onclick = () => nextLevel(false);
-            }
-
-            grid.appendChild(pattern);
-        }
+        grid.appendChild(pattern);
+        */
+      }
+        
     }
 
     function nextLevel(correct) {
       const message = document.getElementById('message');
       if (correct) {
         message.textContent = 'Correct! Moving to the next level...';
-        let pattern = getRandomPattern();
-
-        message.textContent = pattern
+        message.innerHTML = '<span style="color: green; font-weight: bold;">&#9989; Correct! Moving to the next level...</span>';
         level++;
+        difficulty++;
         document.getElementById('level').textContent = `Level: ${level}`;
-        generatePatterns(level);
       } else {
-        message.textContent = 'Wrong! Try again.';
+        message.innerHTML = '<span style="color: red; font-weight: bold;">&#10060; Wrong! Next level will be generated...</span>';
       }
+      generateLevel(level, difficulty); // Regenerate the level
     }
 
-    function getRandomColor() {
-      const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink', 'brown', 'cyan'];
-      return colors[Math.floor(Math.random() * colors.length)];
-    }
-
-    function getRandomShape() {
+    function getRandomShapes(amountOfShapes) {
       const shapes = ['▲', '●', '■', '◆', '★', '⬤', '✦', '✪', '✿'];
-      return shapes[Math.floor(Math.random() * shapes.length)];
+      const randomShapes = [];
+
+      while (randomShapes.length < amountOfShapes) {
+        const shape = shapes[Math.floor(Math.random() * shapes.length)];
+        if (!randomShapes.includes(shape)) {
+          randomShapes.push(shape);
+        }
+      }
+
+      return randomShapes;
     }
 
-    function getRandomPattern() {
-        // Generate a random pattern and cast to 9 bits
-        pattern = Math.floor(Math.random() * 512) + 1
-        return (pattern & 0b111111111).toString(2).padStart(9, '0');
+    function getRandomPatterns(amountOfPatterns) {
+      const randomPatterns = new Set();
+
+      while (randomPatterns.size < amountOfPatterns) {
+        const pattern = (Math.floor(Math.random() * 511) + 1)
+          .toString(2)
+          .padStart(9, '0');
+        randomPatterns.add(pattern);
+      }
+
+      return Array.from(randomPatterns);
     }
-    function countSimilarities(){
+
+    function getRandomColors(amountOfColors) {
+      const colors = ['red', 'blue', 'green', 'yellow', 'purple', 'orange', 'pink', 'brown', 'cyan'];
+      const randomColors = [];
+
+      while (randomColors.length < amountOfColors) {
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        if (!randomColors.includes(color)) {
+          randomColors.push(color);
+        }
+      }
+
+      return randomColors;
+    }
+
+    function countSimilarities(elements, oddOneOutIndex) {
+      let evenElements = elements.filter((_, index) => index !== oddOneOutIndex);
+      // Count the number of similarities with other elements
+      let counts = [];
+      let count = 0;
+
+      for (let i = 0; i < evenElements.length; i++) {
+        for (let j = 0; j < evenElements.length; j++) {
+          if (i !== j) {
+            ['shape', 'pattern', 'color'].forEach(property => {
+              if (evenElements[i][property] === evenElements[j][property]) {
+                count++;
+              }
+            });
+          }
+        }
+        counts.push(count);
+        count = 0; // Reset count for the next element
+      }
+      return count;
+    }
+
+    function createElements(oddOneOutIndex, difficulty) {
+      const similaritiesPerDifficulty = [[21, 20, 19], [18, 17, 16], [15, 14, 13], [12, 11, 10], [9, 8, 7], [6, 5, 4]]; // Define the number of similarities per difficulty level per Element
+      const elements = fillElements();
+      const amountOfElementAttributes = difficulty + 1
+      // The first Attribue in each is the odd one out, the rest are similar
+      const shapes = getRandomShapes(amountOfElementAttributes);
+      const patterns = getRandomPatterns(amountOfElementAttributes);
+      const colors = getRandomColors(amountOfElementAttributes);
+
+      const oddShapeSimilarity = Math.floor(Math.random() * 9);
+      const oddPatternSimilarity = Math.floor(Math.random() * 9);
+      const oddColorSimilarity = Math.floor(Math.random() * 9);
+
+      elements[oddShapeSimilarity].shape = shapes[0];
+      elements[oddPatternSimilarity].pattern = patterns[0];
+      elements[oddColorSimilarity].color = colors[0];
+
+      elements[oddOneOutIndex].shape = shapes[0];
+      elements[oddOneOutIndex].pattern = patterns[0];
+      elements[oddOneOutIndex].color = colors[0];
+
+      do {
+        for (let i = 0; i < totalElements; i++) {
+          if (i !== oddOneOutIndex) {
+            if (i !== oddShapeSimilarity) {
+              elements[i].shape = shapes[Math.floor(Math.random() * (amountOfElementAttributes - 1)) + 1];
+            }
+            if (i !== oddPatternSimilarity) {
+              elements[i].pattern = patterns[Math.floor(Math.random() * (amountOfElementAttributes - 1)) + 1];
+            }
+            if (i !== oddColorSimilarity) {
+              elements[i].color = colors[Math.floor(Math.random() * (amountOfElementAttributes - 1)) + 1];
+            }
+          }
+        }
+      }
+      while (!valid(elements, oddOneOutIndex));
+
+      console.log('Elements:', elements);
+      return elements;
+    }
+
+    function randomizeElements(elements, oddOneOutIndex, oddShapeSimilarity, oddPatternSimilarity, oddColorSimilarity, shapes, patterns, colors) {
 
     }
+
+    function valid(elements, oddOneOutIndex) {
+      // Check if the number of similarities is within the allowed range
+      const count = countSimilarities(elements, oddOneOutIndex);
+      for (let i = 0; i < count.size; i++) {
+        if (!similaritiesPerDifficulty[difficulty - 1].includes(count[i])) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    function fillElements() {
+      const elements = [];
+      // Fill the elements array with Element objects
+      for (let i = 0; i < totalElements; i++) {
+        elements.push(new Element);
+      }
+      return elements;
+    }
+
     // Start the game
-    generatePatterns(level);
+    generateLevel(level, difficulty);
   </script>
 </body>
+
 </html>
