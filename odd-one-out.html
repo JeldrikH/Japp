@@ -73,6 +73,7 @@
     }
 
     function generateLevel(level, difficulty) {
+
       const grid = document.getElementById('grid');
       grid.innerHTML = ''; // Clear previous patterns
 
@@ -255,7 +256,7 @@
             }
             if (i === elements.length - 1) {
               if (!validate(elements, oddOneOutIndex)) {
-                 elements = createElements(oddOneOutIndex, difficulty); // Recursively call to ensure the result is valid
+                elements = createElements(oddOneOutIndex, difficulty); // Recursively call to ensure the result is valid
               }
               return elements; // All attributes are defined, exit the loop
             }
