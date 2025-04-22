@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
   <meta charset="UTF-8">
   <title>Matrix Reasoning – 9 Items (Schwierigkeit klassifiziert)</title>
@@ -14,6 +15,7 @@
     .item-block:first-of-type { display: block; }
   </style>
 </head>
+
 <body>
   <h1>Reasoning Test</h1>
 <!-- BEGINN ITEM BLÖCKE -->
@@ -237,24 +239,32 @@
 
         testDataManager.addTesstData(times, isCorrect, difficulty);
 
-        setTimeout(() => {
-          const currentItem = form.closest(".item-block");
-          currentItem.style.display = "none";
-          const nextItem = currentItem.nextElementSibling;
-          if (nextItem && nextItem.classList.contains("item-block")) {
-            nextItem.style.display = "block";
-            timer.startTimer();
-          } else {
-            testDataManager.save();
-            console.log("Test Data:", testDataManager.getData());
-          }
-        }, 1000);
-      });
-    });
+    // Hide the current item block after a short delay
+    setTimeout(() => {
+      const currentItem = form.closest(".item-block");
+      currentItem.style.display = "none";
+
+      // Show the next item block
+      const nextItem = currentItem.nextElementSibling;
+      if (nextItem && nextItem.classList.contains("item-block")) {
+        nextItem.style.display = "block";
+        timer.startTimer(); // Restart the timer for the next item
+      } else {
+        // If no more items, save and log the results
+        testDataManager.save();
+        console.log("Test Data:", testDataManager.getData());
+        window.location.href = '../games/odd-one-out-explanation.html'; // Redirect to the game selection page after the test
+      }
+    }, 0); //delay
+  });
+});
 
     window.addEventListener("load", () => {
       timer.startTimer();
     });
+
+    
   </script>
 </body>
+
 </html>
