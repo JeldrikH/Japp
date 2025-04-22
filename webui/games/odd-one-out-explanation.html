@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Odd One Out Explanation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2em;
+      text-align: center;
+    }
+    h1 {
+      color: #333;
+    }
+    .explanation {
+      margin: 1.5em 0;
+      font-size: 1.2em;
+      color: #555;
+    }
+    button {
+      padding: 0.5em 1em;
+      font-size: 1em;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to the Game "Odd One Out"</h1>
+  <p class="explanation">
+    In this game, you will be presented with a grid of 9 elements. One element shares no similarities with all the other elements <br> <span style="color: red; font-weight: bold;">As soon as you press continue the timer will start </span><br>Take your time, and do your best!
+  </p>
+  <button onclick="goToNextPage()">Continue</button>
+
+  <script>
+    function goToNextPage() {
+      window.location.href = 'odd-one-out.html'; // Replace with the actual path to the next page
+    }
+  </script>
+</body>
+</html>
