@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-<script src="../scripts/Timer.js"></script>
-<script src="../scripts/GameDataManager.js"></script>
 
 <head>
   <meta charset="UTF-8">
@@ -53,12 +51,19 @@
 <body>
   <h1>Odd One Out</h1>
   <p id="level">Level: 1</p>
+  <div id="countdown"></div>
   <p id="difficulty">Difficulty: 1</p>
   <p id="difficultyCounter">Difficulty Counter: 0</p>
   <div class="grid" id="grid"></div>
   <p id="message"></p>
   <button id="skipButton" onclick="nextLevel(-9)">Skip</button>
-  <script>
+
+  
+  <script type="module">
+    import GameDataManager from "../scripts/GameDataManager.js";
+    import Timer from "../scripts/Timer.js";
+    import Countdown from "../scripts/Countdown.js";
+
     let level = 1;
     let difficulty = 1;
     let difficultyCounter = 0;
@@ -68,6 +73,18 @@
     const timer = new Timer();
     const gameDataManager = new GameDataManager()
     gameDataManager.setGameType('odd-one-out'); // Set the game type for GameDataManager
+
+    // Create a new Countdown instance
+    const countdown = new Countdown('countdown', () => {
+      endGame(); // This function is called when the timer reaches 0
+    });
+
+    // Set the countdown time to 2 minutes and 30 seconds
+    countdown.setTime(0, 10);
+
+    // Start the countdown
+    countdown.start();
+
     // Define the Element struct
     function Element(shape, pattern, color) {
       this.shape = shape;
@@ -107,7 +124,7 @@
 
     }
 
-    function nextLevel(correct) {
+    window.nextLevel = function(correct) {
       timer.stopTimer(); // Stop the timer when the user clicks
       const time = timer.getElapsedTimeInSeconds(); // Get the elapsed time
       gameDataManager.addGameData(difficulty, time, correct); // Save game data
@@ -327,6 +344,16 @@
       return elements;
     }
 
+    function endGame() {
+      alert('Game Over! Your score is: ' + level);
+      // Reset the game state
+      level = 1;
+      difficulty = 1;
+      difficultyCounter = 0;
+      document.getElementById('level').textContent = `Level: ${level}`;
+      document.getElementById('difficulty').textContent = `Difficulty: ${difficulty}`;
+      gameDataManager.save();
+    }
     // Start the game
     generateLevel(level, difficulty);
   </script>
