@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
+<script src="../scripts/Timer.js"></script>
+<script src="../scripts/GameDataManager.js"></script>
 
 <head>
   <meta charset="UTF-8">
@@ -55,8 +57,7 @@
   <p id="difficultyCounter">Difficulty Counter: 0</p>
   <div class="grid" id="grid"></div>
   <p id="message"></p>
-  <p id="info"></p>
-
+  <button id="skipButton" onclick="nextLevel(-9)">Skip</button>
   <script>
     let level = 1;
     let difficulty = 1;
@@ -64,7 +65,9 @@
     let levelsPerDifficulty = 2
     let totalElements = 9;
     let patternSize = 9; // 3x3 grid
-
+    const timer = new Timer();
+    const gameDataManager = new GameDataManager()
+    gameDataManager.setGameType('odd-one-out'); // Set the game type for GameDataManager
     // Define the Element struct
     function Element(shape, pattern, color) {
       this.shape = shape;
@@ -73,7 +76,7 @@
     }
 
     function generateLevel(level, difficulty) {
-
+      timer.startTimer();
       const grid = document.getElementById('grid');
       grid.innerHTML = ''; // Clear previous patterns
 
@@ -95,9 +98,9 @@
         pattern.style.backgroundColor = elements[i].color;
 
         if (i === oddOneOutIndex) {
-          pattern.onclick = () => nextLevel(true);
+          pattern.onclick = () => nextLevel(1);
         } else {
-          pattern.onclick = () => nextLevel(false);
+          pattern.onclick = () => nextLevel(0);
         }
         grid.appendChild(pattern);
       }
@@ -105,8 +108,12 @@
     }
 
     function nextLevel(correct) {
+      timer.stopTimer(); // Stop the timer when the user clicks
+      const time = timer.getElapsedTimeInSeconds(); // Get the elapsed time
+      gameDataManager.addGameData(difficulty, time, correct); // Save game data
+      console.log(gameDataManager.getData()); // Log the game data for debugging
       const message = document.getElementById('message');
-      if (correct) {
+      if (correct === 1) {
         message.textContent = 'Correct! Moving to the next level...';
         message.innerHTML = '<span style="color: green; font-weight: bold;">&#9989; Correct! Moving to the next level...</span>';
         level++;
@@ -120,7 +127,7 @@
           difficultyCounter = levelsPerDifficulty - 1; // Keep it at the last level of the current difficulty
         }
 
-      } else {
+      } else if (correct === 0) {
         message.innerHTML = '<span style="color: red; font-weight: bold;">&#10060; Wrong! Next level will be generated...</span>';
         difficultyCounter--; // Decrease difficulty counter if wrong
         if (difficultyCounter < 0) {
@@ -131,6 +138,8 @@
             difficultyCounter = 0; // Keep it at 0
           }
         }
+      } else if (correct === -9) {
+        message.innerHTML = '<span style="color: orange; font-weight: bold;">&#10067; Skipped! Next level will be generated...</span>';
       }
       document.getElementById('level').textContent = `Level: ${level}`;
       document.getElementById('difficulty').textContent = `Difficulty: ${difficulty}`;
@@ -181,7 +190,6 @@
 
     function countSimilarities(elements, oddOneOutIndex) {
       let evenElements = elements.filter((_, index) => index !== oddOneOutIndex);
-      console.log(evenElements);
       // Count the number of similarities with other elements
       let counts = [];
       let count = 0;
@@ -301,7 +309,6 @@
 
     function validate(elements, oddOneOutIndex) {
       const count = countSimilarities(elements, oddOneOutIndex);
-      document.getElementById('info').textContent = `Similarities: ${count.join(', ')}`; // Display the number of similarities
       // Check if there is an element without similarities
       for (let i = 0; i < count.length; i++) {
         if (count[i] === 0) {
