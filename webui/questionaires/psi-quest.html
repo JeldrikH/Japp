@@ -1,23 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Problem Solving Inventory (PSI)</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 2em; }
-    h2 { color: #333; }
-    .question { margin-bottom: 1.5em; }
-    label { display: block; margin-bottom: 0.5em; }
-    .scale-option { margin-right: 1em; }
-    button { padding: 0.5em 1em; font-size: 1em; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2em;
+    }
+
+    h2 {
+      color: #333;
+    }
+
+    .question {
+      margin-bottom: 1.5em;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5em;
+    }
+
+    .scale-option {
+      margin-right: 1em;
+    }
+
+    button {
+      padding: 0.5em 1em;
+      font-size: 1em;
+      margin-top: 1em;
+    }
+
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
+
 <body>
   <h2>Problem Solving Inventory (PSI) - Self Assessment</h2>
   <form id="psiForm">
     <!-- Questions will be inserted here by JavaScript -->
   </form>
-  <button onclick="submitForm()">Submit</button>
+  <button id="backButton" class="hidden" onclick="showPreviousQuestions()">Back</button>
+  <button id="nextButton" onclick="showNextQuestions()">Next</button>
+  <button id="submitButton" class="hidden" onclick="submitForm()">Submit</button>
 
   <script type="module">
     import QuestionaireDataManager from "../scripts/questionaireDataManager.js";
@@ -79,6 +108,140 @@
     const questionaireDataManager = new QuestionaireDataManager(); // Create an instance of QuestionaireDataManager
     questionaireDataManager.setType("PSI - Problem Solving Inventory"); // Set the type of the questionnaire
 
+    let currentQuestionIndex = 0; // Tracks the current set of questions
+    const questionsPerPage = 5; // Number of questions to show per page
+    const userAnswers = {}; // Object to store user answers
+
+    // Function to render a set of questions
+    function renderQuestions(startIndex) {
+      form.innerHTML = ""; // Clear the form
+      const endIndex = Math.min(startIndex + questionsPerPage, questions.length);
+
+      for (let i = startIndex; i < endIndex; i++) {
+        const div = document.createElement("div");
+        div.className = "question";
+
+        const label = document.createElement("label");
+        label.textContent = `${i + 1}. [${subscales[i]}] ${questions[i]}`;
+        div.appendChild(label);
+
+        scaleLabels.forEach((scaleText, value) => {
+          const radio = document.createElement("input");
+          radio.type = "radio";
+          radio.name = `q${i + 1}`;
+          radio.value = value + 1;
+          radio.required = true;
+          radio.className = "scale-option";
+
+          // Pre-fill the radio button if the user has already answered this question
+          if (userAnswers[`q${i + 1}`] === String(value + 1)) {
+            radio.checked = true;
+          }
+          const span = document.createElement("span");
+          span.textContent = scaleText;
+          span.style.marginRight = "10px";
+
+          div.appendChild(radio);
+          div.appendChild(span);
+        });
+
+        form.appendChild(div);
+      }
+    }
+
+    // Show the first set of questions
+    renderQuestions(currentQuestionIndex);
+
+    // Function to show the previous set of questions
+    window.showPreviousQuestions = function () {
+      const data = new FormData(form);
+      for (let i = currentQuestionIndex; i < currentQuestionIndex + questionsPerPage; i++) {
+        if (i >= questions.length) break;
+        const answer = data.get(`q${i + 1}`);
+        if (answer) {
+          userAnswers[`q${i + 1}`] = answer; // Save the answer
+        }
+      }
+      // Move to the previous set of questions
+      currentQuestionIndex -= questionsPerPage;
+
+      // Ensure the index doesn't go below 0
+      if (currentQuestionIndex < 0) {
+        currentQuestionIndex = 0;
+      }
+
+      // Render the previous set of questions
+      renderQuestions(currentQuestionIndex);
+
+      // Update button visibility
+      if (currentQuestionIndex === 0) {
+        document.getElementById("backButton").classList.add("hidden"); // Hide "Back" button on the first set
+      }
+      document.getElementById("nextButton").classList.remove("hidden"); // Show "Next" button
+      document.getElementById("submitButton").classList.add("hidden"); // Hide "Submit" button
+    };
+
+    // Function to show the next set of questions
+    window.showNextQuestions = function () {
+      const data = new FormData(form);
+      let allAnswered = true;
+
+      // Validate that all questions on the current page are answered
+      for (let i = currentQuestionIndex; i < currentQuestionIndex + questionsPerPage; i++) {
+        if (i >= questions.length) break;
+        const answer = data.get(`q${i + 1}`);
+        if (!answer) {
+          allAnswered = false;
+          break;
+        } else {
+          userAnswers[`q${i + 1}`] = answer; // Save the answer
+        }
+      }
+
+      if (!allAnswered) {
+        alert("Please answer all questions before proceeding.");
+        return;
+      }
+
+      // Move to the next set of questions
+      currentQuestionIndex += questionsPerPage;
+
+      if (currentQuestionIndex >= questions.length) {
+        // If no more questions, show the submit button and hide the next button
+        document.getElementById("nextButton").classList.add("hidden");
+        document.getElementById("submitButton").classList.remove("hidden");
+      } else {
+        // Render the next set of questions
+        renderQuestions(currentQuestionIndex);
+      }
+
+      // Show the "Back" button after the first set
+      if (currentQuestionIndex > 0) {
+        document.getElementById("backButton").classList.remove("hidden");
+      }
+    };
+
+    // Function to submit the form
+    window.submitForm = function () {
+      // Iterate over the userAnswers object
+      for (const [questionKey, answer] of Object.entries(userAnswers)) {
+        // Extract the question index from the key (e.g., "q1" -> 1)
+        const questionIndex = parseInt(questionKey.slice(1), 10) - 1;
+
+        // Add data to QuestionaireDataManager
+        questionaireDataManager.addQuestionaireData(
+          parseInt(answer, 10), // Add answer as a number
+          subscales[questionIndex], // Add subscale name
+          questionIndex + 1 // Add question index (1-based)
+        );
+      }
+      // Save and log the results
+      questionaireDataManager.save();
+      console.log("Questionnaire Data:", questionaireDataManager.getData());
+      alert("Thank you! Your responses have been recorded.");
+      window.location.href = '../end.html'; // Redirect to the end page
+    };
+    /*
     // Dynamically generate the questions
     questions.forEach((text, index) => {
       const div = document.createElement("div");
@@ -106,9 +269,10 @@
 
       form.appendChild(div);
     });
+    */
 
-
-    window.submitForm = function() {
+    /*
+    window.submitForm = function () {
       const data = new FormData(form);
       let allAnswered = true;
 
@@ -139,6 +303,8 @@
       alert("Thank you! Your responses have been recorded.");
       window.location.href = '../end.html'; // Redirect to the end page 
     }
+      */
   </script>
 </body>
+
 </html>
