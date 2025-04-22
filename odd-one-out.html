@@ -14,21 +14,31 @@
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(3, 100px);
+      grid-template-columns: repeat(3, 150px);
       gap: 15px;
+      margin: 0 auto;
       justify-content: center;
-      margin-top: 20px;
+      align-items: center;
     }
 
-    .pattern {
-      width: 100px;
-      height: 100px;
+    .innerGrid {
+      width: 150px;
+      height: 150px;
+      display: grid;
+      grid-template-columns: repeat(3, 50px);
+      margin: 0 auto;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .shape {
+      width: 50px;
+      height: 50px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
-      border: 2px solid black;
-      cursor: pointer;
+      font-size: 30px;
+      cursor: default;
       transition: transform 0.2s;
     }
 
@@ -41,13 +51,19 @@
 <body>
   <h1>Odd One Out</h1>
   <p id="level">Level: 1</p>
+  <p id="difficulty">Difficulty: 1</p>
+  <p id="difficultyCounter">Difficulty Counter: 0</p>
   <div class="grid" id="grid"></div>
   <p id="message"></p>
+  <p id="info"></p>
 
   <script>
     let level = 1;
-    let difficulty = 5;
+    let difficulty = 1;
+    let difficultyCounter = 0;
+    let levelsPerDifficulty = 2
     let totalElements = 9;
+    let patternSize = 9; // 3x3 grid
 
     // Define the Element struct
     function Element(shape, pattern, color) {
@@ -64,25 +80,27 @@
       var elements = createElements(oddOneOutIndex, difficulty);
 
       for (let i = 0; i < totalElements; i++) {
-        const pattern = document.createElement('div');
-        pattern.classList.add('pattern');
+        const pattern = document.createElement('div'); // Outer grid cell
+        pattern.classList.add('innerGrid');
 
-        /*
-        // Set the odd one out
-        if (i === oddIndex) {
-          pattern.style.backgroundColor = oddColor;
-          pattern.textContent = oddShape;
+        for (let j = 0; j < patternSize; j++) {
+          const symbol = document.createElement('div'); // Inner grid cell
+          symbol.classList.add('shape');
+          if (elements[i].pattern[j] === '1') {
+            symbol.textContent = elements[i].shape; // If the bit is 1, show the shape
+          }
+          pattern.appendChild(symbol);
+        }
+        pattern.style.backgroundColor = elements[i].color;
+
+        if (i === oddOneOutIndex) {
           pattern.onclick = () => nextLevel(true);
         } else {
-          pattern.style.backgroundColor = baseColor;
-          pattern.textContent = baseShape;
           pattern.onclick = () => nextLevel(false);
         }
-
         grid.appendChild(pattern);
-        */
       }
-        
+
     }
 
     function nextLevel(correct) {
@@ -91,11 +109,31 @@
         message.textContent = 'Correct! Moving to the next level...';
         message.innerHTML = '<span style="color: green; font-weight: bold;">&#9989; Correct! Moving to the next level...</span>';
         level++;
-        difficulty++;
-        document.getElementById('level').textContent = `Level: ${level}`;
+        difficultyCounter++;
+        if (difficultyCounter >= levelsPerDifficulty) {
+          difficultyCounter = 0;
+          difficulty++;
+        }
+        if (difficulty > 6) {
+          difficulty = 6; // Cap the difficulty at 6
+          difficultyCounter = levelsPerDifficulty - 1; // Keep it at the last level of the current difficulty
+        }
+
       } else {
         message.innerHTML = '<span style="color: red; font-weight: bold;">&#10060; Wrong! Next level will be generated...</span>';
+        difficultyCounter--; // Decrease difficulty counter if wrong
+        if (difficultyCounter < 0) {
+          difficultyCounter = levelsPerDifficulty - 1; // Reset to last level of previous difficulty
+          difficulty--; // Decrease difficulty if wrong#
+          if (difficulty < 1) {
+            difficulty = 1; // Bottom out at 1
+            difficultyCounter = 0; // Keep it at 0
+          }
+        }
       }
+      document.getElementById('level').textContent = `Level: ${level}`;
+      document.getElementById('difficulty').textContent = `Difficulty: ${difficulty}`;
+      document.getElementById('difficultyCounter').textContent = `Difficulty Counter: ${difficultyCounter}`;
       generateLevel(level, difficulty); // Regenerate the level
     }
 
@@ -117,9 +155,9 @@
       const randomPatterns = new Set();
 
       while (randomPatterns.size < amountOfPatterns) {
-        const pattern = (Math.floor(Math.random() * 511) + 1)
+        const pattern = (Math.floor(Math.random() * (Math.pow(2, patternSize) - 1)) + 1) // Generate a random number between 1 and 511 (2^9 - 1)
           .toString(2)
-          .padStart(9, '0');
+          .padStart(patternSize, '0');
         randomPatterns.add(pattern);
       }
 
@@ -142,6 +180,7 @@
 
     function countSimilarities(elements, oddOneOutIndex) {
       let evenElements = elements.filter((_, index) => index !== oddOneOutIndex);
+      console.log(evenElements);
       // Count the number of similarities with other elements
       let counts = [];
       let count = 0;
@@ -159,25 +198,17 @@
         counts.push(count);
         count = 0; // Reset count for the next element
       }
-      return count;
+      return counts;
     }
 
     function createElements(oddOneOutIndex, difficulty) {
-      const similaritiesPerDifficulty = [[21, 20, 19], [18, 17, 16], [15, 14, 13], [12, 11, 10], [9, 8, 7], [6, 5, 4]]; // Define the number of similarities per difficulty level per Element
+
       const elements = fillElements();
-      const amountOfElementAttributes = difficulty + 1
+      const amountOfElementAttributes = [2, 3, 4, 5, 6, 9] //last one needs more variations
       // The first Attribue in each is the odd one out, the rest are similar
-      const shapes = getRandomShapes(amountOfElementAttributes);
-      const patterns = getRandomPatterns(amountOfElementAttributes);
-      const colors = getRandomColors(amountOfElementAttributes);
-
-      const oddShapeSimilarity = Math.floor(Math.random() * 9);
-      const oddPatternSimilarity = Math.floor(Math.random() * 9);
-      const oddColorSimilarity = Math.floor(Math.random() * 9);
-
-      elements[oddShapeSimilarity].shape = shapes[0];
-      elements[oddPatternSimilarity].pattern = patterns[0];
-      elements[oddColorSimilarity].color = colors[0];
+      const shapes = getRandomShapes(amountOfElementAttributes[difficulty - 1]);
+      const patterns = getRandomPatterns(amountOfElementAttributes[difficulty - 1]);
+      const colors = getRandomColors(amountOfElementAttributes[difficulty - 1]);
 
       elements[oddOneOutIndex].shape = shapes[0];
       elements[oddOneOutIndex].pattern = patterns[0];
@@ -186,32 +217,25 @@
       do {
         for (let i = 0; i < totalElements; i++) {
           if (i !== oddOneOutIndex) {
-            if (i !== oddShapeSimilarity) {
-              elements[i].shape = shapes[Math.floor(Math.random() * (amountOfElementAttributes - 1)) + 1];
-            }
-            if (i !== oddPatternSimilarity) {
-              elements[i].pattern = patterns[Math.floor(Math.random() * (amountOfElementAttributes - 1)) + 1];
-            }
-            if (i !== oddColorSimilarity) {
-              elements[i].color = colors[Math.floor(Math.random() * (amountOfElementAttributes - 1)) + 1];
-            }
+            elements[i].shape = shapes[Math.floor(Math.random() * (amountOfElementAttributes[difficulty - 1] - 1)) + 1];
+            elements[i].pattern = patterns[Math.floor(Math.random() * (amountOfElementAttributes[difficulty - 1] - 1)) + 1];
+            elements[i].color = colors[Math.floor(Math.random() * (amountOfElementAttributes[difficulty - 1] - 1)) + 1];
           }
         }
       }
-      while (!valid(elements, oddOneOutIndex));
+      while (!validate(elements, oddOneOutIndex));
 
-      console.log('Elements:', elements);
       return elements;
     }
 
-    function randomizeElements(elements, oddOneOutIndex, oddShapeSimilarity, oddPatternSimilarity, oddColorSimilarity, shapes, patterns, colors) {
 
-    }
-
-    function valid(elements, oddOneOutIndex) {
+    function validate(elements, oddOneOutIndex) {
+      // Define the number of similarities per difficulty level per Element
+      const similaritiesPerDifficulty = [[21, 20, 19, 18], [17, 16, 15, 14], [13, 12, 11, 10], [9, 8, 7, 6], [5, 4, 3, 2],[1]];
       // Check if the number of similarities is within the allowed range
       const count = countSimilarities(elements, oddOneOutIndex);
-      for (let i = 0; i < count.size; i++) {
+      document.getElementById('info').textContent = `Similarities: ${count.join(', ')}`; // Display the number of similarities
+      for (let i = 0; i < count.length; i++) {
         if (!similaritiesPerDifficulty[difficulty - 1].includes(count[i])) {
           return false;
         }
