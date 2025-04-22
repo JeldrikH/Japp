@@ -11,7 +11,7 @@ export default class UserDataManager {
     }
     async setId() {
         try {
-            const response = await fetch("https://japp.42web.io/getid.php");
+            const response = await fetch("http://qweqwrtqwew.atwebpages.com/getid.php");
             const data = await response.json();
     
             if (data.next_id) {
@@ -27,7 +27,7 @@ export default class UserDataManager {
     }
     
     save() {
-        JSONCreator.data.userData = this.userData; // Save the game data to the JSONCreator object
+        JSONCreator.data.userData = this.userData; // Save the game data to the JSONCreator object 
     }
 
     // Get the current userData object (for debugging or display)
