@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<script src="./scripts/QuestionaireDataManager.js"></script> 
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -20,7 +19,8 @@
   </form>
   <button onclick="submitForm()">Submit</button>
 
-  <script>
+  <script type="module">
+    import QuestionaireDataManager from "../scripts/questionaireDataManager.js";
     const questions = [
       "When a solution to a problem has failed, I do not examine why it didn’t work.",
       "When I am confronted with a complex problem, I don’t take the time to develop a strategy for collecting information that will help define the nature of the problem.",
@@ -78,7 +78,6 @@
     const form = document.getElementById("psiForm");
     const questionaireDataManager = new QuestionaireDataManager(); // Create an instance of QuestionaireDataManager
     questionaireDataManager.setType("PSI - Problem Solving Inventory"); // Set the type of the questionnaire
-    const timer = new Timer(); // Create an instance of Timer
 
     // Dynamically generate the questions
     questions.forEach((text, index) => {
@@ -108,10 +107,6 @@
       form.appendChild(div);
     });
 
-    // Start the timer when the page loads
-    window.addEventListener("load", () => {
-      timer.startTimer();
-    });
 
     function submitForm() {
       const data = new FormData(form);
@@ -122,9 +117,6 @@
         if (!answer) {
           allAnswered = false; // If any question is unanswered, set flag to false
         } else {
-          // Stop the timer for this question
-          const elapsedTime = timer.stopTimer();
-          const elapsedTimeInSeconds = timer.getElapsedTimeInSeconds();
 
           // Add data to QuestionaireDataManager
           questionaireDataManager.addQuestionaireData(
@@ -137,8 +129,6 @@
             `Question ${index + 1}: Answer = ${answer}, Time = ${elapsedTimeInSeconds} seconds`
           );
 
-          // Restart the timer for the next question
-          timer.startTimer();
         }
       });
 

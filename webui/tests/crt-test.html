@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<script src="../scripts/TestDataManager.js"></script>
 <html lang="de">
 <head>
   <meta charset="UTF-8">
@@ -177,7 +176,7 @@
       <div class="options">
         <label>
           <input type="radio" name="answer_12" value="A">
-          <img src="./images/tf1/tf1_12_T1_ss2_pd.jpeg" alt="Option A" class="option-img" width="100"><br>A
+          <img src="./images/tf1_12_T1_ss2_pd.jpeg" alt="Option A" class="option-img" width="100"><br>A
         </label>
         <label>
           <input type="radio" name="answer_12" value="B">
@@ -285,8 +284,8 @@
   </div>
 
   <script type="module">
-    import { TestDataManager } from "../scripts/TestDataManager.js";
-    import { Timer } from "../scripts/Timer.js";
+    import TestDataManager from "../scripts/TestDataManager.js";
+    import Timer from "../scripts/Timer.js";
     const itemList = [3, 4, 5, 6, 11, 12, 13, 19, 22];
     const testDataManager = new TestDataManager(); // Create an instance of TestDataManager
     testDataManager.setType("CRT Test"); // Set the type of test in TestDataManager

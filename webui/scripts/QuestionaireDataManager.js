@@ -15,7 +15,7 @@ export default class QuestionaireDataManager {
     }
 
     setType(type) {
-        this.gameData.type = type;
+        this.questionaireData.type = type;
     }
 
     save() {
