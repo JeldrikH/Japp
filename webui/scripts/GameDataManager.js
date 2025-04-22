@@ -20,6 +20,7 @@ export default class GameDataManager {
 
     save() {
         JSONCreator.data.gameData = this.gameData; // Save the game data to the JSONCreator object
+        JSONCreator.saveData(); // Save the data to localStorage
     }
 
     // Get the current gameData object (for debugging or display)

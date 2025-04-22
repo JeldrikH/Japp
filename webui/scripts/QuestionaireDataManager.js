@@ -20,6 +20,7 @@ export default class QuestionaireDataManager {
 
     save() {
         JSONCreator.data.questionaireData = this.questionaireData; // Save the game data to the JSONCreator object
+        JSONCreator.saveData(); // Save the data to localStorage
     }
 
     // Get the current questionaireData object (for debugging or display)

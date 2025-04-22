@@ -28,6 +28,7 @@ export default class UserDataManager {
     
     save() {
         JSONCreator.data.userData = this.userData; // Save the game data to the JSONCreator object 
+        JSONCreator.saveData(); // Save the data to localStorage
     }
 
     // Get the current userData object (for debugging or display)

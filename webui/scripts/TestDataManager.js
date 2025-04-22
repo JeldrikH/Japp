@@ -20,6 +20,7 @@ export default class TestDataManager {
 
     save() {
         JSONCreator.data.testData = this.testData; // Save the game data to the JSONCreator object
+        JSONCreator.saveData(); // Save the data to localStorage
     }
 
     // Get the current questionaireData object (for debugging or display)
