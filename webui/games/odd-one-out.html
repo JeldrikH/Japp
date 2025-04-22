@@ -346,13 +346,7 @@
 
     function endGame() {
       alert('Game Over! Your score is: ' + level);
-      // Reset the game state
-      level = 1;
-      difficulty = 1;
-      difficultyCounter = 0;
-      document.getElementById('level').textContent = `Level: ${level}`;
-      document.getElementById('difficulty').textContent = `Difficulty: ${difficulty}`;
-      gameDataManager.save();
+      window.location.href = '../questionaires/psi-quest-explanation.html'; // Redirect to the next page after game is over
     }
     // Start the game
     generateLevel(level, difficulty);

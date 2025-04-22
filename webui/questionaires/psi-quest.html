@@ -108,7 +108,7 @@
     });
 
 
-    function submitForm() {
+    window.submitForm = function() {
       const data = new FormData(form);
       let allAnswered = true;
 
@@ -125,10 +125,6 @@
             index + 1 // Add question index
           );
 
-          console.log(
-            `Question ${index + 1}: Answer = ${answer}, Time = ${elapsedTimeInSeconds} seconds`
-          );
-
         }
       });
 
@@ -141,6 +137,7 @@
       questionaireDataManager.save();
       console.log("Questionnaire Data:", questionaireDataManager.getData());
       alert("Thank you! Your responses have been recorded.");
+      window.location.href = '../end.html'; // Redirect to the end page 
     }
   </script>
 </body>

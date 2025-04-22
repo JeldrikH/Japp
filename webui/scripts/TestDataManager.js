@@ -8,7 +8,7 @@ export default class TestDataManager {
         difficulty: []
     };
 
-    addTesstData(times, answers, difficulty) {
+    addTestData(times, answers, difficulty) {
         this.testData.times.push(times);
         this.testData.answers.push(answers);
         this.testData.difficulty.push(difficulty);
