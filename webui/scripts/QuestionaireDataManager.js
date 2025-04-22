@@ -1,4 +1,5 @@
-class QuestionaireDataManager {
+import JSONCreator from "./JSONCreator.js"; // Import the JSONCreator module
+export default class QuestionaireDataManager {
     // Initialize the GameData object
     questionaireData = {
         type: "",

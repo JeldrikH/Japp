@@ -1,4 +1,5 @@
-class UserDataManager {
+import JSONCreator from "./JSONCreator.js"; // Import the JSONCreator module
+export default class UserDataManager {
     // Initialize the GameData object
     userData = {
         name: "",

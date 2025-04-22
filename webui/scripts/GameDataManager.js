@@ -9,9 +9,9 @@ export default class GameDataManager {
     };
     // Add level entries
     addGameData(diff, time, result) {
-        this.gameData.difficulties.push({ difficulty: diff }); // Add a difficulty entry
-        this.gameData.times.push({ time }); // Add a time entry
-        this.gameData.results.push({ result }); // Add a result entry
+        this.gameData.difficulties.push(diff); // Add a difficulty entry
+        this.gameData.times.push(time ); // Add a time entry
+        this.gameData.results.push(result); // Add a result entry
     }
 
     setGameType(type) {

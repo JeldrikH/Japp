@@ -1,5 +1,5 @@
-import { Timer } from "./Timer.js"; // Import the Timer class
-class TestDataManager {
+import JSONCreator from "./JSONCreator.js"; // Import the JSONCreator module
+export default class TestDataManager {
     // Initialize the GameData object
     testData = {
         type: "",
