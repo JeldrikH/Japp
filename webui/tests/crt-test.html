@@ -237,7 +237,7 @@
         const isCorrect = selected.value === correctAnswer ? 1 : 0;
         const difficulty = difficultyMap[itemId] ?? 1;
 
-        testDataManager.addTesstData(times, isCorrect, difficulty);
+        testDataManager.addTestData(times, isCorrect, difficulty);
 
     // Hide the current item block after a short delay
     setTimeout(() => {
