@@ -20,9 +20,6 @@ export default class GameDataManager {
 
     save() {
         JSONCreator.data.gameData = this.gameData; // Save the game data to the JSONCreator object
-
-        //temporary: download the JSON file
-        JSONCreator.downloadJSON("gameData.json"); // Download the JSON file with the game data
     }
 
     // Get the current gameData object (for debugging or display)

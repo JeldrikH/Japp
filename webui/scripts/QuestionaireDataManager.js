@@ -9,9 +9,9 @@ export default class QuestionaireDataManager {
     };
 
     addQuestionaireData(answers, subscales, indexes) {
-        this.questionaireData.answers.push({ answers });
-        this.questionaireData.subscales.push({ subscales });
-        this.questionaireData.indexes.push({ indexes });
+        this.questionaireData.answers.push(answers);
+        this.questionaireData.subscales.push(subscales);
+        this.questionaireData.indexes.push(indexes);
     }
 
     setType(type) {
