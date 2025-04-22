@@ -1,7 +1,10 @@
 class JSONCreator {
-    constructor(data) {
-        this.data = data; // Die abstrakten Daten, die in JSON umgewandelt werden sollen
-    }
+    data = {
+        user,
+        questionaire,
+        game,
+        test
+    };
 
     // Methode, um die Daten in JSON umzuwandeln
     toJSON() {
@@ -28,35 +31,21 @@ class JSONCreator {
 }
 
 // Beispiel: Nutzung der Klasse
-const dataUser = {
+const userData = {
     name: "Max Mustermann",
     id: 12345
 };
 
-const dataQuestionaire = {
-    type: "problem solving"
-};
-const dataGame = {
-    type: "Odd One Out",
-    difficulties: [1, 2, 2, 2, 3, 4, 3, 2],
-    times: [23, 12, 421, 1, 21, 2, 21, 32, 3, 41, 32, 232],  // in seconds
-    results: [1, 0, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0] // 0 = wrong, 1 = right, -9 = skipped
-};
-const dataTest = {
-    type: "reasoning test",
-    difficulties: [1, 2, 2, 2, 3, 4, 3, 2],
-    times: [23, 12, 421, 1, 21, 2, 21, 32, 3, 41, 32, 232], // in seconds
-    results: [1, 0, 0, 0, 0, 1, 1, 0, 1, -9, 0, -9] // 0 = wrong, 1 = right
+const questionaireData = {
+    type: "problem solving",
+    answers: [3, 2, 1, 4, 5, 6, 5, 2, 4], // 6 antwortmöglichkeiten
+    subscale: "name"
 };
 
-const data = {
-    user: dataUser,
-    questionaire: dataQuestionaire,
-    game: dataGame,
-    test: dataTest
-};
 
-const jsonCreator = new JSONCreator(data);
+
+
+
 
 // JSON-Daten anzeigen
 console.log(jsonCreator.toJSON());
