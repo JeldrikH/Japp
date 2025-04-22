@@ -7,21 +7,14 @@ class QuestionaireDataManager {
         indexes: []
     };
 
-    setType(type) {
-        this.gameData.type = type;
-    }
-    // add a difficulty entry
-    addAnswer(answer) {
-        this.questionaireData.answers.push({ answer });
-    }
-    // Add a time entry
-    addSubscales(subscale) {
-        this.questionaireData.subscales.push({ subscale });
+    addQuestionaireData(answers, subscales, indexes) {
+        this.questionaireData.answers.push({ answers });
+        this.questionaireData.subscales.push({ subscales });
+        this.questionaireData.indexes.push({ indexes });
     }
 
-    // Add a index entry
-    addIndex(index) {
-        this.questionaireData.indexes.push({ index });
+    setType(type) {
+        this.gameData.type = type;
     }
 
     save() {
