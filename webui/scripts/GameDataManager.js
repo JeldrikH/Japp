@@ -1,4 +1,5 @@
-class GameDataManager {
+import JSONCreator from "./JSONCreator.js"; // Import the JSONCreator module
+export default class GameDataManager {
     // Initialize the GameData object
     gameData = {
         type: "",
@@ -19,6 +20,9 @@ class GameDataManager {
 
     save() {
         JSONCreator.data.gameData = this.gameData; // Save the game data to the JSONCreator object
+
+        //temporary: download the JSON file
+        JSONCreator.downloadJSON("gameData.json"); // Download the JSON file with the game data
     }
 
     // Get the current gameData object (for debugging or display)
