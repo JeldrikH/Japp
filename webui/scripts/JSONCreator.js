@@ -1,10 +1,5 @@
 export default class JSONCreator {
-    static data = {
-        user: null,
-        questionaire: null,
-        game: null,
-        test: null
-    };
+    static data = JSONCreator.loadData(); // Load data from localStorage on initialization
 
     // Methode, um die Daten in JSON umzuwandeln
     static toJSON() {
@@ -16,6 +11,36 @@ export default class JSONCreator {
         }
     }
 
+    // Load data from localStorage
+    static loadData() {
+        try {
+            const savedData = localStorage.getItem("JSONCreatorData");
+            return savedData ? JSON.parse(savedData) : {
+                userData: null,
+                questionaireData: null,
+                gameData: null,
+                testData: null
+            };
+        } catch (error) {
+            console.error("Error loading data from localStorage:", error);
+            return {
+                userData: null,
+                questionaireData: null,
+                gameData: null,
+                testData: null
+            };
+        }
+    }
+
+    // Save data to localStorage
+    static saveData() {
+        try {
+            localStorage.setItem("JSONCreatorData", JSON.stringify(this.data));
+        } catch (error) {
+            console.error("Error saving data to localStorage:", error);
+        }
+    }
+    
     // Methode, um die JSON-Daten als Datei herunterzuladen
     static downloadJSON(filename = "data.json") {
         const jsonData = this.toJSON();
