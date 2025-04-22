@@ -1,0 +1,29 @@
+import { Timer } from "./Timer.js"; // Import the Timer class
+class TestDataManager {
+    // Initialize the GameData object
+    testData = {
+        type: "",
+        times: [],
+        answers: [],
+        difficulty: []
+    };
+
+    addTesstData(times, answers, difficulty) {
+        this.testData.times.push({ times });
+        this.testData.answers.push({ answers });
+        this.testData.difficulty.push({ difficulty });
+    }
+
+    setType(type) {
+        this.testData.type = type;
+    }
+
+    save() {
+        JSONCreator.data.questionaireData = this.questionaireData; // Save the game data to the JSONCreator object
+    }
+
+    // Get the current questionaireData object (for debugging or display)
+    getData() {
+        return this.testData;
+    }
+}
