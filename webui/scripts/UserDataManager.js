@@ -9,10 +9,23 @@ export default class UserDataManager {
     setName(name) {
         this.userData.name = name;
     }
-    setId(id) {
-        this.userData.id = id;
+    async setId() {
+        try {
+            const response = await fetch("https://japp.42web.io/getid.php");
+            const data = await response.json();
+    
+            if (data.next_id) {
+                this.userData.id = data.next_id;
+                return data.next_id; // gibt die ID zurück
+            } else {
+                throw new Error("Fehlerhafte Antwort vom Server");
+            }
+        } catch (error) {
+            console.error("Fehler beim Abrufen der ID:", error);
+            return null;
+        }
     }
-
+    
     save() {
         JSONCreator.data.userData = this.userData; // Save the game data to the JSONCreator object
     }
