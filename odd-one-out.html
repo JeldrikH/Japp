@@ -202,41 +202,108 @@
     }
 
     function createElements(oddOneOutIndex, difficulty) {
+      var elements = fillElements();
+      const amountOfElementAttributes = [3, 4, 5, 6, 7, 8]; // Number of attributes per difficulty
+      const similaritiesPerDifficulty = [18, 14, 10, 6, 2, 1]; // Reference similarities per difficulty (not a fixed value)
 
-      const elements = fillElements();
-      const amountOfElementAttributes = [2, 3, 4, 5, 6, 9] //last one needs more variations
-      // The first Attribue in each is the odd one out, the rest are similar
-      const shapes = getRandomShapes(amountOfElementAttributes[difficulty - 1]);
-      const patterns = getRandomPatterns(amountOfElementAttributes[difficulty - 1]);
-      const colors = getRandomColors(amountOfElementAttributes[difficulty - 1]);
+      // Get the number of attributes and similarities for the current difficulty
+      const numAttributes = amountOfElementAttributes[difficulty - 1];
+      const targetSimilarities = similaritiesPerDifficulty[difficulty - 1]; // Use the highest similarity for now
 
+      // Generate random attributes
+      const shapes = getRandomShapes(numAttributes);
+      const patterns = getRandomPatterns(numAttributes);
+      const colors = getRandomColors(numAttributes);
+
+      // Define the odd one out
       elements[oddOneOutIndex].shape = shapes[0];
       elements[oddOneOutIndex].pattern = patterns[0];
       elements[oddOneOutIndex].color = colors[0];
 
-      do {
-        for (let i = 0; i < totalElements; i++) {
-          if (i !== oddOneOutIndex) {
-            elements[i].shape = shapes[Math.floor(Math.random() * (amountOfElementAttributes[difficulty - 1] - 1)) + 1];
-            elements[i].pattern = patterns[Math.floor(Math.random() * (amountOfElementAttributes[difficulty - 1] - 1)) + 1];
-            elements[i].color = colors[Math.floor(Math.random() * (amountOfElementAttributes[difficulty - 1] - 1)) + 1];
+
+      // Fill the other elements
+      for (let i = 0; i < totalElements; i++) {
+        if (i === oddOneOutIndex) continue;
+
+        // Define undefined attibutes for the current iteration
+        if (typeof elements[i].shape === 'undefined') {
+          elements[i].shape = shapes[Math.floor(Math.random() * (numAttributes - 1)) + 1];
+        }
+        if (typeof elements[i].pattern === 'undefined') {
+          elements[i].pattern = patterns[Math.floor(Math.random() * (numAttributes - 1)) + 1];
+        }
+        if (typeof elements[i].color === 'undefined') {
+          elements[i].color = colors[Math.floor(Math.random() * (numAttributes - 1)) + 1];
+        }
+
+        // Determine how many attributes should match
+        let remainingSimilarities = targetSimilarities - countSimilarities(elements, oddOneOutIndex)[i];
+
+        // Assign attributes to ensure the desired number of similarities
+        while (remainingSimilarities > 0) {
+
+          // Force quit the loop if all attributes are defined
+          for (let i = 0; i < elements.length; i++) {
+            if (elements[i].shape === undefined) {
+              break
+            }
+            if (elements[i].pattern === undefined) {
+              break
+            }
+            if (elements[i].color === undefined) {
+              break
+            }
+            if (i === elements.length - 1) {
+              if (!validate(elements, oddOneOutIndex)) {
+                 elements = createElements(oddOneOutIndex, difficulty); // Recursively call to ensure the result is valid
+              }
+              return elements; // All attributes are defined, exit the loop
+            }
+          }
+          const chosenAttribute = Math.floor(Math.random() * 3); // Randomly choose the attribute to match
+          const chosenElement = Math.floor(Math.random() * 9); // Randomly choose the element to match
+
+          if (chosenElement === oddOneOutIndex || chosenElement === i) {
+            continue; // Ensure we don't match the odd one out or the current element
+          }
+
+          switch (chosenAttribute) {
+            case 0:
+              if (typeof elements[chosenElement].shape === 'undefined') {
+                elements[chosenElement].shape = elements[i].shape;
+                remainingSimilarities--;
+                break;
+              }
+
+            case 1:
+              if (typeof elements[chosenElement].pattern === 'undefined') {
+                elements[chosenElement].pattern = elements[i].pattern;
+                remainingSimilarities--;
+                break;
+              }
+
+            case 2:
+              if (typeof elements[chosenElement].color === 'undefined') {
+                elements[chosenElement].color = elements[i].color;
+                remainingSimilarities--;
+                break;
+              }
           }
         }
       }
-      while (!validate(elements, oddOneOutIndex));
-
+      if (!validate(elements, oddOneOutIndex)) {
+        elements = createElements(oddOneOutIndex, difficulty); // Recursively call to ensure the result is valid
+      }
       return elements;
     }
 
 
     function validate(elements, oddOneOutIndex) {
-      // Define the number of similarities per difficulty level per Element
-      const similaritiesPerDifficulty = [[21, 20, 19, 18], [17, 16, 15, 14], [13, 12, 11, 10], [9, 8, 7, 6], [5, 4, 3, 2],[1]];
-      // Check if the number of similarities is within the allowed range
       const count = countSimilarities(elements, oddOneOutIndex);
       document.getElementById('info').textContent = `Similarities: ${count.join(', ')}`; // Display the number of similarities
+      // Check if there is an element without similarities
       for (let i = 0; i < count.length; i++) {
-        if (!similaritiesPerDifficulty[difficulty - 1].includes(count[i])) {
+        if (count[i] === 0) {
           return false;
         }
       }
