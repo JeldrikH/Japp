@@ -6,22 +6,15 @@ class GameDataManager {
         times: [],
         results: []
     };
+    // Add level entries
+    addGameData(diff, time, result) {
+        this.gameData.difficulties.push({ difficulty: diff }); // Add a difficulty entry
+        this.gameData.times.push({ time }); // Add a time entry
+        this.gameData.results.push({ result }); // Add a result entry
+    }
 
     setGameType(type) {
         this.gameData.type = type;
-    }
-    // add a difficulty entry
-    addDifficulty(difficulty) {
-        this.gameData.difficulties.push({ difficulty });
-    }
-    // Add a time entry
-    addTime(diff, time) {
-        this.dataGame.times.push({ time });
-    }
-
-    // Add a result entry
-    addResult(diff, result) {
-        this.dataGame.results.push({ result });
     }
 
     save() {
