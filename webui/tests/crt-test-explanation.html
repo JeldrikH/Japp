@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRT Test Explanation</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2em;
+      text-align: center;
+    }
+    h1 {
+      color: #333;
+    }
+    .explanation {
+      margin: 1.5em 0;
+      font-size: 1.2em;
+      color: #555;
+    }
+    button {
+      padding: 0.5em 1em;
+      font-size: 1em;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to the CRT Test</h1>
+  <p class="explanation">
+    In this test, you will be presented with a series of multiple choice tasks. Please read each question carefully and select the best answer.  <br> The first step is a quick CRT test to get a first insight. <br> <span style="color: red; font-weight: bold;">As soon as you press continue the timer will start </span><br>Take your time, and do your best!
+  </p>
+  <button onclick="goToNextPage()">Continue</button>
+
+  <script>
+    function goToNextPage() {
+      window.location.href = 'crt-test.html'; // Replace with the actual path to the next page
+    }
+  </script>
+</body>
+</html>

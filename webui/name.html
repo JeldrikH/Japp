@@ -2,13 +2,72 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Name</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enter Your Name</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 2em; }
-    h2 { color: #333; }
-    .question { margin-bottom: 1.5em; }
-    label { display: block; margin-bottom: 0.5em; }
-    .scale-option { margin-right: 1em; }
-    button { padding: 0.5em 1em; font-size: 1em; }
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2em;
+      text-align: center;
+    }
+    h1 {
+      color: #333;
+    }
+    .description {
+      margin: 1.5em 0;
+      font-size: 1.2em;
+      color: #555;
+    }
+    .form-group {
+      margin: 1.5em 0;
+    }
+    input[type="text"] {
+      padding: 0.5em;
+      font-size: 1em;
+      width: 80%;
+      max-width: 300px;
+      margin-bottom: 1em;
+    }
+    button {
+      padding: 0.5em 1em;
+      font-size: 1em;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
   </style>
 </head>
+<body>
+  <h1>Welcome!</h1>
+  <p class="description">Please enter your name below. Once you're done, read the instructions carefully. When you're ready, click the button to proceed to the next page.</p>
+  
+  <div class="form-group">
+    <label for="username">Your Name:</label>
+    <input type="text" id="username" placeholder="Enter your name here" required>
+  </div>
+  <p class="description">This is a WebUI that evaluates your skills and background for your job applications.</p>
+  <button onclick="goToNextPage()">Next</button>
+
+  <script type="module">
+    import UserDataManager from "./scripts/UserDataManager.js";
+     window.goToNextPage = function() {
+      const username = document.getElementById('username').value.trim();
+      const userDataManager = new UserDataManager();
+      if (!username) {
+        alert('Please enter your name before proceeding.');
+        return;
+      }
+      // Save the name to localStorage (optional)
+      userDataManager.setName(username);
+
+      // Redirect to the next page
+      window.location.href = 'tests/crt-test-explanation.html'; // Replace with the actual path to the next page
+    }
+  </script>
+</body>
+</html>

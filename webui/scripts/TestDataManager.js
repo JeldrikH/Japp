@@ -9,9 +9,9 @@ export default class TestDataManager {
     };
 
     addTesstData(times, answers, difficulty) {
-        this.testData.times.push({ times });
-        this.testData.answers.push({ answers });
-        this.testData.difficulty.push({ difficulty });
+        this.testData.times.push(times);
+        this.testData.answers.push(answers);
+        this.testData.difficulty.push(difficulty);
     }
 
     setType(type) {
