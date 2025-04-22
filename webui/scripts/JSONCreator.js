@@ -28,6 +28,31 @@ export default class JSONCreator {
         link.click();
         URL.revokeObjectURL(link.href); // Speicher freigeben
     }
+
+    // Methode, um die JSON-Daten an einen Server zu senden
+    static async sendToServer(url) {
+        const jsonData = this.toJSON();
+        if (!jsonData) return;
+
+        try {
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: jsonData
+            });
+
+            if (!response.ok) {
+                throw new Error(`Server returned status ${response.status}`);
+            }
+
+            const result = await response.json();
+            console.log("Server-Antwort:", result);
+            return result;
+        } catch (error) {
+            console.error("Fehler beim Senden der Daten an den Server:", error);
+            return null;
+        }
+    }
 }
 
 // Beispiel: Nutzung der Klasse
@@ -35,10 +60,6 @@ const userData = {
     name: "Max Mustermann",
     id: 12345
 };
-
-
-
-
 
 
 // JSON-Daten anzeigen
