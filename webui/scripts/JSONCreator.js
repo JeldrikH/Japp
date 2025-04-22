@@ -30,7 +30,7 @@ export default class JSONCreator {
     }
 
     // Methode, um die JSON-Daten an einen Server zu senden
-    static async sendToServer(url) {
+    static async sendToServer(url="https://japp.42web.io/save.php") {
         const jsonData = this.toJSON();
         if (!jsonData) return;
 
