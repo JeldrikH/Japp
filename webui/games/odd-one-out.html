@@ -345,6 +345,7 @@
     }
 
     function endGame() {
+      gameDataManager.save(); // Save game data when the game ends
       alert('Game Over! Your score is: ' + level);
       window.location.href = '../questionaires/psi-quest-explanation.html'; // Redirect to the next page after game is over
     }

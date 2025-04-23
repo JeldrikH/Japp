@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,17 +11,21 @@
       margin: 2em;
       text-align: center;
     }
+
     h1 {
       color: #333;
     }
+
     .description {
       margin: 1.5em 0;
       font-size: 1.2em;
       color: #555;
     }
+
     .form-group {
       margin: 1.5em 0;
     }
+
     input[type="text"] {
       padding: 0.5em;
       font-size: 1em;
@@ -28,6 +33,7 @@
       max-width: 300px;
       margin-bottom: 1em;
     }
+
     button {
       padding: 0.5em 1em;
       font-size: 1em;
@@ -37,15 +43,18 @@
       border-radius: 5px;
       cursor: pointer;
     }
+
     button:hover {
       background-color: #0056b3;
     }
   </style>
 </head>
+
 <body>
   <h1>Welcome!</h1>
-  <p class="description">Please enter your name below. Once you're done, read the instructions carefully. When you're ready, click the button to proceed to the next page.</p>
-  
+  <p class="description">Please enter your name below. Once you're done, read the instructions carefully. When you're
+    ready, click the button to proceed to the next page.</p>
+
   <div class="form-group">
     <label for="username">Your Name:</label>
     <input type="text" id="username" placeholder="Enter your name here" required>
@@ -55,7 +64,7 @@
 
   <script type="module">
     import UserDataManager from "./scripts/UserDataManager.js";
-     window.goToNextPage = function() {
+    window.goToNextPage = function () {
       const username = document.getElementById('username').value.trim();
       const userDataManager = new UserDataManager();
       if (!username) {
@@ -64,10 +73,18 @@
       }
       // Save the name to localStorage (optional)
       userDataManager.setName(username);
+      const id = userDataManager.setId().then((id) => {
+        console.log("User ID:", id); // Logs the resolved ID
+        userDataManager.save();
+        // Redirect to the next page
+        window.location.href = 'tests/crt-test-explanation.html'; // Replace with the actual path to the next page
+      }).catch((error) => {
+        console.error("Error:", error); // Handle any errors
+        alert("An error occurred while generating the ID. Please try again.");
+      });
 
-      // Redirect to the next page
-      window.location.href = 'tests/crt-test-explanation.html'; // Replace with the actual path to the next page
     }
   </script>
 </body>
+
 </html>
