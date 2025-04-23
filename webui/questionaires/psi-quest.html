@@ -3,38 +3,82 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Problem Solving Inventory (PSI)</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 2em;
-    }
-
-    h2 {
+      background-color: #f9f9f9;
       color: #333;
     }
 
-    .question {
+    h2 {
+      color: #007BFF;
+      text-align: center;
       margin-bottom: 1.5em;
+    }
+
+    .question {
+      background-color: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 1em;
+      margin-bottom: 1.5em;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     label {
       display: block;
-      margin-bottom: 0.5em;
+      font-size: 1.1em;
+      margin-top: 0.1em;
+      color: #555;
+    }
+
+    .scale-options {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5em;
+      margin-top: 0.5em;
     }
 
     .scale-option {
-      margin-right: 1em;
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+
+    }
+
+    input[type="radio"] {
+      accent-color: #007BFF;
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
     }
 
     button {
-      padding: 0.5em 1em;
+      padding: 0.75em 1.5em;
       font-size: 1em;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
       margin-top: 1em;
+      transition: background-color 0.3s ease;
     }
 
-    .hidden {
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    button.hidden {
       display: none;
+    }
+
+    .button-container {
+      text-align: center;
+      margin-top: 1.5em;
     }
   </style>
 </head>
@@ -44,9 +88,11 @@
   <form id="psiForm">
     <!-- Questions will be inserted here by JavaScript -->
   </form>
+  <div class="button-container"></div>
   <button id="backButton" class="hidden" onclick="showPreviousQuestions()">Back</button>
   <button id="nextButton" onclick="showNextQuestions()">Next</button>
   <button id="submitButton" class="hidden" onclick="submitForm()">Submit</button>
+  </div>
 
   <script type="module">
     import QuestionaireDataManager from "../scripts/questionaireDataManager.js";
@@ -125,26 +171,35 @@
         label.textContent = `${i + 1}. [${subscales[i]}] ${questions[i]}`;
         div.appendChild(label);
 
+        // Create a container for the scale options
+        const scaleOptions = document.createElement("div");
+        scaleOptions.className = "scale-options";
+
         scaleLabels.forEach((scaleText, value) => {
+          const optionDiv = document.createElement("div");
+          optionDiv.className = "scale-option";
+
           const radio = document.createElement("input");
           radio.type = "radio";
           radio.name = `q${i + 1}`;
+          radio.id = `q${i + 1}_option${value + 1}`; // Unique ID for each radio button
           radio.value = value + 1;
           radio.required = true;
-          radio.className = "scale-option";
 
           // Pre-fill the radio button if the user has already answered this question
           if (userAnswers[`q${i + 1}`] === String(value + 1)) {
             radio.checked = true;
           }
-          const span = document.createElement("span");
-          span.textContent = scaleText;
-          span.style.marginRight = "10px";
+          const label = document.createElement("label");
+          label.textContent = scaleText;
+          label.setAttribute("for", radio.id); // Associate the label with the radio button
 
-          div.appendChild(radio);
-          div.appendChild(span);
+          optionDiv.appendChild(radio);
+          optionDiv.appendChild(label);
+          scaleOptions.appendChild(optionDiv);
         });
 
+        div.appendChild(scaleOptions);
         form.appendChild(div);
       }
     }
@@ -152,8 +207,22 @@
     // Show the first set of questions
     renderQuestions(currentQuestionIndex);
 
-    // Function to show the previous set of questions
-    window.showPreviousQuestions = function () {
+    function allAnswersValid() {
+      const data = new FormData(form);
+      // Validate that all questions on the current page are answered and store the answers
+      for (let i = currentQuestionIndex; i < currentQuestionIndex + questionsPerPage; i++) {
+        if (i >= questions.length) break;
+        const answer = data.get(`q${i + 1}`);
+        if (!answer) {
+          return false;
+        } else {
+
+        }
+      }
+      return true;
+    }
+
+    function saveAnswers(){
       const data = new FormData(form);
       for (let i = currentQuestionIndex; i < currentQuestionIndex + questionsPerPage; i++) {
         if (i >= questions.length) break;
@@ -162,6 +231,11 @@
           userAnswers[`q${i + 1}`] = answer; // Save the answer
         }
       }
+    }
+
+    // Function to show the previous set of questions
+    window.showPreviousQuestions = function () {
+      saveAnswers(); // Save the answers before moving to the previous set
       // Move to the previous set of questions
       currentQuestionIndex -= questionsPerPage;
 
@@ -181,32 +255,23 @@
       document.getElementById("submitButton").classList.add("hidden"); // Hide "Submit" button
     };
 
+
+
     // Function to show the next set of questions
     window.showNextQuestions = function () {
       const data = new FormData(form);
-      let allAnswered = true;
 
-      // Validate that all questions on the current page are answered
-      for (let i = currentQuestionIndex; i < currentQuestionIndex + questionsPerPage; i++) {
-        if (i >= questions.length) break;
-        const answer = data.get(`q${i + 1}`);
-        if (!answer) {
-          allAnswered = false;
-          break;
-        } else {
-          userAnswers[`q${i + 1}`] = answer; // Save the answer
-        }
-      }
-
-      if (!allAnswered) {
+      if (!allAnswersValid()) {
         alert("Please answer all questions before proceeding.");
         return;
       }
-
+      saveAnswers(); // Save the answers before moving to the next set
       // Move to the next set of questions
       currentQuestionIndex += questionsPerPage;
 
-      if (currentQuestionIndex >= questions.length) {
+      if (currentQuestionIndex >= questions.length - questionsPerPage) {
+        // Render the last set of questions
+        renderQuestions(currentQuestionIndex);
         // If no more questions, show the submit button and hide the next button
         document.getElementById("nextButton").classList.add("hidden");
         document.getElementById("submitButton").classList.remove("hidden");
@@ -223,6 +288,11 @@
 
     // Function to submit the form
     window.submitForm = function () {
+      if (!allAnswersValid()) {
+        alert("Please answer all questions before proceeding.");
+        return;
+      }
+      saveAnswers(); // Save the answers before moving to the next set
       // Iterate over the userAnswers object
       for (const [questionKey, answer] of Object.entries(userAnswers)) {
         // Extract the question index from the key (e.g., "q1" -> 1)
@@ -241,69 +311,6 @@
       alert("Thank you! Your responses have been recorded.");
       window.location.href = '../end.html'; // Redirect to the end page
     };
-    /*
-    // Dynamically generate the questions
-    questions.forEach((text, index) => {
-      const div = document.createElement("div");
-      div.className = "question";
-
-      const label = document.createElement("label");
-      label.textContent = `${index + 1}. [${subscales[index]}] ${text}`;
-      div.appendChild(label);
-
-      scaleLabels.forEach((scaleText, value) => {
-        const radio = document.createElement("input");
-        radio.type = "radio";
-        radio.name = `q${index + 1}`;
-        radio.value = value + 1;
-        radio.required = true;
-        radio.className = "scale-option";
-
-        const span = document.createElement("span");
-        span.textContent = scaleText;
-        span.style.marginRight = "10px";
-
-        div.appendChild(radio);
-        div.appendChild(span);
-      });
-
-      form.appendChild(div);
-    });
-    */
-
-    /*
-    window.submitForm = function () {
-      const data = new FormData(form);
-      let allAnswered = true;
-
-      questions.forEach((_, index) => {
-        const answer = data.get(`q${index + 1}`);
-        if (!answer) {
-          allAnswered = false; // If any question is unanswered, set flag to false
-        } else {
-
-          // Add data to QuestionaireDataManager
-          questionaireDataManager.addQuestionaireData(
-            parseInt(answer, 10), // Add answer as a number
-            subscales[index], // Add subscale name
-            index + 1 // Add question index
-          );
-
-        }
-      });
-
-      if (!allAnswered) {
-        alert("Please answer all questions before submitting.");
-        return; // Stop submission if not all questions are answered
-      }
-
-      // Save and log the results
-      questionaireDataManager.save();
-      console.log("Questionnaire Data:", questionaireDataManager.getData());
-      alert("Thank you! Your responses have been recorded.");
-      window.location.href = '../end.html'; // Redirect to the end page 
-    }
-      */
   </script>
 </body>
 

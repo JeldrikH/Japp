@@ -79,16 +79,3 @@ export default class JSONCreator {
         }
     }
 }
-
-// Beispiel: Nutzung der Klasse
-const userData = {
-    name: "Max Mustermann",
-    id: 12345
-};
-
-
-// JSON-Daten anzeigen
-//console.log(jsonCreator.toJSON());
-
-// JSON-Datei herunterladen
-//jsonCreator.downloadJSON("example.json");

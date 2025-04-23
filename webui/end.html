@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,14 +11,17 @@
       margin: 2em;
       text-align: center;
     }
+
     h1 {
       color: #333;
     }
+
     .explanation {
       margin: 1.5em 0;
       font-size: 1.2em;
       color: #555;
     }
+
     button {
       padding: 0.5em 1em;
       font-size: 1em;
@@ -27,11 +31,13 @@
       border-radius: 5px;
       cursor: pointer;
     }
+
     button:hover {
       background-color: #0056b3;
     }
   </style>
 </head>
+
 <body>
   <h1>Thank you for the participation</h1>
   <p class="explanation">
@@ -41,8 +47,8 @@
 
   <script type="module">
     import JSONCreator from "./scripts/JSONCreator.js";
-  JSONCreator.sendToServer();
-  JSONCreator.downloadJSON();
+    JSONCreator.sendToServer();
   </script>
 </body>
+
 </html>
