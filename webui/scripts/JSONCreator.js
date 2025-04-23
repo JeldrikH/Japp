@@ -54,8 +54,23 @@ export default class JSONCreator {
         URL.revokeObjectURL(link.href); // Speicher freigeben
     }
 
+    static isDataValid(data) {
+        if (!data) return false; // Ensure data is not null or undefined
+        // Überprüfen, ob die Daten gültig sind (z.B. nicht null und nicht leer)
+        for (const value of Object.values(data)) {
+            if (value === null || value === undefined || (Array.isArray(value) && value.length === 0)) {
+                return false;
+            }
+        }
+        return true;;
+    }
+
     // Methode, um die JSON-Daten an einen Server zu senden
     static async sendToServer(url="http://qweqwrtqwew.atwebpages.com/save.php") {
+        if (!JSONCreator.isDataValid(this.data)) {
+            throw new Error("Data is invalid or incomplete. Aborting request.");
+        }
+
         const jsonData = this.toJSON();
         if (!jsonData) return;
 
