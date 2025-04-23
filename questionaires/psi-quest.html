@@ -8,15 +8,19 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      margin: 2em;
+      margin: 0;
+      padding: 1rem;
       background-color: #f9f9f9;
       color: #333;
+      box-sizing: border-box;
     }
 
     h2 {
       color: #007BFF;
       text-align: center;
       margin-bottom: 1.5em;
+      font-size: 1.5rem;
+      /* Adjust font size for better readability */
     }
 
     .question {
@@ -30,15 +34,15 @@
 
     label {
       display: block;
-      font-size: 1.1em;
-      margin-top: 0.1em;
+      font-size: 1rem;
+      /* Adjust font size for smaller screens */
+      margin-top: 0.2em;
       color: #555;
     }
 
     .scale-options {
       display: flex;
       flex-direction: column;
-      gap: 0.5em;
       margin-top: 0.5em;
     }
 
@@ -46,7 +50,6 @@
       display: flex;
       align-items: center;
       gap: 0.5em;
-
     }
 
     input[type="radio"] {
@@ -58,7 +61,7 @@
 
     button {
       padding: 0.75em 1.5em;
-      font-size: 1em;
+      font-size: 1rem;
       background-color: #007BFF;
       color: white;
       border: none;
@@ -66,6 +69,10 @@
       cursor: pointer;
       margin-top: 1em;
       transition: background-color 0.3s ease;
+      width: 100%;
+      /* Make buttons full-width on mobile */
+      max-width: 300px;
+      /* Limit button width on larger screens */
     }
 
     button:hover {
@@ -79,6 +86,67 @@
     .button-container {
       text-align: center;
       margin-top: 1.5em;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 0.5rem;
+        /* Reduce padding for smaller screens */
+      }
+
+      h2 {
+        font-size: 1.25rem;
+        /* Reduce font size for smaller screens */
+      }
+
+      .question {
+        padding: 0.75em;
+        /* Reduce padding for smaller screens */
+        margin-bottom: 1em;
+        /* Reduce spacing between questions */
+      }
+
+      label {
+        font-size: 0.9rem;
+        /* Adjust font size for smaller screens */
+      }
+
+      input[type="radio"] {
+        width: 18px;
+        /* Slightly smaller radio buttons */
+        height: 18px;
+      }
+
+      button {
+        font-size: 0.9rem;
+        /* Adjust button font size */
+        padding: 0.5em 1em;
+        /* Adjust button padding */
+      }
+    }
+
+    @media (max-width: 480px) {
+      h2 {
+        font-size: 1rem;
+        /* Further reduce font size for very small screens */
+      }
+
+      .question {
+        padding: 0.5em;
+        /* Further reduce padding */
+      }
+
+      label {
+        font-size: 0.85rem;
+        /* Further reduce font size */
+      }
+
+      button {
+        font-size: 0.8rem;
+        /* Further adjust button font size */
+        padding: 0.5em;
+        /* Further adjust button padding */
+      }
     }
   </style>
 </head>
@@ -222,7 +290,7 @@
       return true;
     }
 
-    function saveAnswers(){
+    function saveAnswers() {
       const data = new FormData(form);
       for (let i = currentQuestionIndex; i < currentQuestionIndex + questionsPerPage; i++) {
         if (i >= questions.length) break;

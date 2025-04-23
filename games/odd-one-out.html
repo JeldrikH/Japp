@@ -9,35 +9,49 @@
     body {
       font-family: Arial, sans-serif;
       text-align: center;
-      margin-top: 20px;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      font-size: 1.8rem;
+      margin: 1rem 0;
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(3, 150px);
-      gap: 15px;
+      grid-template-columns: repeat(3, 10vw);
+      /* Adjust grid cell size for desktop */
+      gap: 1.0vw;
+      /* Add spacing between grid cells */
       margin: 0 auto;
       justify-content: center;
       align-items: center;
+      max-width: 60vw;
+      /* Limit the grid width */
     }
 
     .innerGrid {
-      width: 150px;
-      height: 150px;
+      width: 10vw;
+      /* Adjust inner grid size for desktop */
+      height: 10vw;
       display: grid;
-      grid-template-columns: repeat(3, 50px);
+      grid-template-columns: repeat(3, 1fr);
       margin: 0 auto;
       justify-content: center;
       align-items: center;
     }
 
     .shape {
-      width: 50px;
-      height: 50px;
+      width: 3vw;
+      /* Adjust shape size for desktop */
+      height: 3vw;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 30px;
+      font-size: 2vw;
+      /* Adjust font size for desktop */
       cursor: default;
       transition: transform 0.2s;
     }
@@ -45,20 +59,142 @@
     .pattern:hover {
       transform: scale(1.1);
     }
+
+    button {
+      padding: 1rem 2rem;
+      font-size: 1rem;
+      margin: 1rem auto;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .countdown-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 1rem auto;
+    }
+
+    .circle {
+      position: relative;
+      width: 120px;
+      height: 120px;
+      background: conic-gradient(#007BFF 0%, #ddd 0%);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .circle-inner {
+      width: 90%;
+      height: 90%;
+      background: #fff;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #countdown-text {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #333;
+    }
+
+    @media (max-width: 768px) {
+      h1 {
+        font-size: 1.5rem;
+        /* Reduce font size for smaller screens */
+      }
+
+      .grid {
+        grid-template-columns: repeat(3, 25vw);
+        /* Adjust grid cell size for tablets */
+        gap: 3vw;
+        /* Reduce spacing between grid cells */
+      }
+
+      .innerGrid {
+        width: 25vw;
+        /* Adjust inner grid size for tablets */
+        height: 25vw;
+      }
+
+      .shape {
+        width: 6vw;
+        /* Adjust shape size for tablets */
+        height: 6vw;
+        font-size: 4vw;
+        /* Adjust font size for tablets */
+      }
+
+      button {
+        font-size: 0.9rem;
+        /* Adjust button size */
+        padding: 0.75rem 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      h1 {
+        font-size: 1.2rem;
+        /* Further reduce font size for very small screens */
+      }
+
+      .grid {
+        grid-template-columns: repeat(3, 30vw);
+        /* Further adjust grid cell size for mobile */
+        gap: 2vw;
+        /* Reduce spacing between grid cells */
+      }
+
+      .innerGrid {
+        width: 30vw;
+        /* Further adjust inner grid size for mobile */
+        height: 30vw;
+      }
+
+      .shape {
+        width: 8vw;
+        /* Further adjust shape size for mobile */
+        height: 8vw;
+        font-size: 5vw;
+        /* Further adjust font size for mobile */
+      }
+
+      button {
+        font-size: 0.8rem;
+        /* Further adjust button size */
+        padding: 0.5rem 1rem;
+      }
+    }
   </style>
 </head>
 
 <body>
   <h1>Odd One Out</h1>
   <p id="level">Level: 1</p>
-  <div id="countdown"></div>
-  <p id="difficulty">Difficulty: 1</p>
-  <p id="difficultyCounter">Difficulty Counter: 0</p>
+  <div id="countdown" class="countdown-container">
+    <div class="circle">
+      <div class="circle-inner">
+        <span id="countdown-text">2:00</span>
+      </div>
+    </div>
+  </div>
   <div class="grid" id="grid"></div>
   <p id="message"></p>
   <button id="skipButton" onclick="nextLevel(-9)">Skip</button>
 
-  
+
   <script type="module">
     import GameDataManager from "../scripts/GameDataManager.js";
     import Timer from "../scripts/Timer.js";
@@ -74,15 +210,11 @@
     const gameDataManager = new GameDataManager()
     gameDataManager.setGameType('odd-one-out'); // Set the game type for GameDataManager
 
-    // Create a new Countdown instance
-    const countdown = new Countdown('countdown', () => {
-      endGame(); // This function is called when the timer reaches 0
+    // Initialize the timer and countdown
+    const countdown = new Countdown('countdown-text', () => {
+      endGame();
     });
-
-    // Set the countdown time to 2 minutes and 30 seconds
-    countdown.setTime(0, 5);
-
-    // Start the countdown
+    countdown.setTime(0, 10);
     countdown.start();
 
     // Define the Element struct
@@ -124,7 +256,7 @@
 
     }
 
-    window.nextLevel = function(correct) {
+    window.nextLevel = function (correct) {
       timer.stopTimer(); // Stop the timer when the user clicks
       const time = timer.getElapsedTimeInSeconds(); // Get the elapsed time
       gameDataManager.addGameData(difficulty, time, correct); // Save game data
@@ -159,8 +291,6 @@
         message.innerHTML = '<span style="color: orange; font-weight: bold;">&#10067; Skipped! Next level will be generated...</span>';
       }
       document.getElementById('level').textContent = `Level: ${level}`;
-      document.getElementById('difficulty').textContent = `Difficulty: ${difficulty}`;
-      document.getElementById('difficultyCounter').textContent = `Difficulty Counter: ${difficultyCounter}`;
       generateLevel(level, difficulty); // Regenerate the level
     }
 

@@ -3,201 +3,271 @@
 
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Matrix Reasoning – 9 Items (Schwierigkeit klassifiziert)</title>
   <style>
-    body { font-family: Arial, sans-serif; max-width: 800px; margin: 2rem auto; }
-    .matrix-img, .option-img { border: 1px solid #ccc; margin: 1rem auto; display: block; }
-    .options { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-top: 1rem; }
-    .option label { display: flex; flex-direction: column; align-items: center; }
-    button { margin-top: 1rem; padding: 0.5rem 1rem; font-size: 1rem; }
-    .result { margin-top: 1rem; font-weight: bold; text-align: center; }
-    .item-block { border-top: 2px solid #ccc; padding-top: 2rem; margin-top: 2rem; display: none; }
-    .item-block:first-of-type { display: block; }
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 100%;
+      margin: 1rem auto;
+      padding: 0 1rem;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      text-align: center;
+      margin-top: 1rem;
+      font-size: 2rem;
+      color: #333;
+    }
+
+    .item-block {
+      border-top: 2px solid #ccc;
+      padding-top: 2rem;
+      margin-top: 2rem;
+      display: none;
+      text-align: center;
+      /* Center-align text inside the block */
+    }
+
+    .item-block:first-of-type {
+      display: block;
+    }
+
+    .matrix-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* Center-align all elements horizontally */
+      gap: 1rem;
+      /* Add spacing between elements */
+    }
+
+    .matrix-img {
+      border: 1px solid #ccc;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .option label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    button {
+      margin-top: 1rem;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .result {
+      margin-top: 1rem;
+      font-weight: bold;
+      text-align: center;
+    }
   </style>
 </head>
 
 <body>
   <h1>Reasoning Test</h1>
-<!-- BEGINN ITEM BLÖCKE -->
-<div class="item-block">
-  <h2>Item 4</h2>
-  <p><strong>Welche Figur vervollständigt die Matrix?</strong></p>
-  <img src="./images/tf1_4_M_ss3.jpeg" alt="Matrix Item 4" class="matrix-img" width="300">
-  <form class="itemForm">
-    <div class="options">
-      <label><input type="radio" name="answer_4" value="A">
-        <img src="./images/tf1_4_T1_ss3_pd.jpeg" class="option-img" width="100"><br>A</label>
-      <label><input type="radio" name="answer_4" value="B">
-        <img src="./images/tf1_4_T2_ss3_pd.jpeg" class="option-img" width="100"><br>B</label>
-      <label><input type="radio" name="answer_4" value="C">
-        <img src="./images/tf1_4_T3_ss3_pd.jpeg" class="option-img" width="100"><br>C</label>
-      <label><input type="radio" name="answer_4" value="D">
-        <img src="./images/tf1_4_T4_ss3_pd.jpeg" class="option-img" width="100"><br>D</label>
-    </div>
-    <button type="submit">Antwort abgeben</button>
-  </form>
-  <div class="result" id="result_4"></div>
-</div>
+  <!-- BEGINN ITEM BLÖCKE -->
+  <div class="item-block">
+    <h2>Item 4</h2>
+    <p><strong>Welche Figur vervollständigt die Matrix?</strong></p>
+    <img src="./images/tf1_4_M_ss3.jpeg" alt="Matrix Item 4" class="matrix-img" width="300">
+    <form class="itemForm">
+      <div class="options">
+        <label><input type="radio" name="answer_4" value="A">
+          <img src="./images/tf1_4_T1_ss3_pd.jpeg" class="option-img" width="100"><br>A</label>
+        <label><input type="radio" name="answer_4" value="B">
+          <img src="./images/tf1_4_T2_ss3_pd.jpeg" class="option-img" width="100"><br>B</label>
+        <label><input type="radio" name="answer_4" value="C">
+          <img src="./images/tf1_4_T3_ss3_pd.jpeg" class="option-img" width="100"><br>C</label>
+        <label><input type="radio" name="answer_4" value="D">
+          <img src="./images/tf1_4_T4_ss3_pd.jpeg" class="option-img" width="100"><br>D</label>
+      </div>
+      <button type="submit">Antwort abgeben</button>
+    </form>
+    <div class="result" id="result_4"></div>
+  </div>
 
-<div class="item-block">
-  <h2>Item 5</h2>
-  <p><strong>Welche Figur vervollständigt die Matrix?</strong></p>
-  <img src="./images/tf1_5_M_ss1.jpeg" alt="Matrix Item 5" class="matrix-img" width="300">
-  <form class="itemForm">
-    <div class="options">
-      <label><input type="radio" name="answer_5" value="A">
-        <img src="./images/tf1_5_T1_ss1_pd.jpeg" class="option-img" width="100"><br>A</label>
-      <label><input type="radio" name="answer_5" value="B">
-        <img src="./images/tf1_5_T2_ss1_pd.jpeg" class="option-img" width="100"><br>B</label>
-      <label><input type="radio" name="answer_5" value="C">
-        <img src="./images/tf1_5_T3_ss1_pd.jpeg" class="option-img" width="100"><br>C</label>
-      <label><input type="radio" name="answer_5" value="D">
-        <img src="./images/tf1_5_T4_ss1_pd.jpeg" class="option-img" width="100"><br>D</label>
-    </div>
-    <button type="submit">Antwort abgeben</button>
-  </form>
-  <div class="result" id="result_5"></div>
-</div>
+  <div class="item-block">
+    <h2>Item 5</h2>
+    <p><strong>Welche Figur vervollständigt die Matrix?</strong></p>
+    <img src="./images/tf1_5_M_ss1.jpeg" alt="Matrix Item 5" class="matrix-img" width="300">
+    <form class="itemForm">
+      <div class="options">
+        <label><input type="radio" name="answer_5" value="A">
+          <img src="./images/tf1_5_T1_ss1_pd.jpeg" class="option-img" width="100"><br>A</label>
+        <label><input type="radio" name="answer_5" value="B">
+          <img src="./images/tf1_5_T2_ss1_pd.jpeg" class="option-img" width="100"><br>B</label>
+        <label><input type="radio" name="answer_5" value="C">
+          <img src="./images/tf1_5_T3_ss1_pd.jpeg" class="option-img" width="100"><br>C</label>
+        <label><input type="radio" name="answer_5" value="D">
+          <img src="./images/tf1_5_T4_ss1_pd.jpeg" class="option-img" width="100"><br>D</label>
+      </div>
+      <button type="submit">Antwort abgeben</button>
+    </form>
+    <div class="result" id="result_5"></div>
+  </div>
 
-<div class="item-block">
-  <h2>Item 40</h2>
-  <p><strong>Welche Figur vervollständigt die Matrix?</strong></p>
-  <img src="./images/tf1_40_M_ss3.jpeg" alt="Matrix Item 40" class="matrix-img" width="300">
-  <form class="itemForm">
-    <div class="options">
-      <label><input type="radio" name="answer_40" value="A">
-        <img src="./images/tf1_40_T1_ss3_pd.jpeg" class="option-img" width="100"><br>A</label>
-      <label><input type="radio" name="answer_40" value="B">
-        <img src="./images/tf1_40_T2_ss3_pd.jpeg" class="option-img" width="100"><br>B</label>
-      <label><input type="radio" name="answer_40" value="C">
-        <img src="./images/tf1_40_T3_ss3_pd.jpeg" class="option-img" width="100"><br>C</label>
-      <label><input type="radio" name="answer_40" value="D">
-        <img src="./images/tf1_40_T4_ss3_pd.jpeg" class="option-img" width="100"><br>D</label>
-    </div>
-    <button type="submit">Antwort abgeben</button>
-  </form>
-  <div class="result" id="result_40"></div>
-</div>
+  <div class="item-block">
+    <h2>Item 40</h2>
+    <p><strong>Welche Figur vervollständigt die Matrix?</strong></p>
+    <img src="./images/tf1_40_M_ss3.jpeg" alt="Matrix Item 40" class="matrix-img" width="300">
+    <form class="itemForm">
+      <div class="options">
+        <label><input type="radio" name="answer_40" value="A">
+          <img src="./images/tf1_40_T1_ss3_pd.jpeg" class="option-img" width="100"><br>A</label>
+        <label><input type="radio" name="answer_40" value="B">
+          <img src="./images/tf1_40_T2_ss3_pd.jpeg" class="option-img" width="100"><br>B</label>
+        <label><input type="radio" name="answer_40" value="C">
+          <img src="./images/tf1_40_T3_ss3_pd.jpeg" class="option-img" width="100"><br>C</label>
+        <label><input type="radio" name="answer_40" value="D">
+          <img src="./images/tf1_40_T4_ss3_pd.jpeg" class="option-img" width="100"><br>D</label>
+      </div>
+      <button type="submit">Antwort abgeben</button>
+    </form>
+    <div class="result" id="result_40"></div>
+  </div>
 
-<div class="item-block">
-  <h2>Item 57</h2>
-  <p><strong>Welche Figur vervollständigt die Matrix?</strong></p>
-  <img src="./images/tf1_57_M_ss2.jpeg" alt="Matrix Item 57" class="matrix-img" width="300">
-  <form class="itemForm">
-    <div class="options">
-      <label><input type="radio" name="answer_57" value="A">
-        <img src="./images/tf1_57_T1_ss2_pd.jpeg" class="option-img" width="100"><br>A</label>
-      <label><input type="radio" name="answer_57" value="B">
-        <img src="./images/tf1_57_T2_ss2_pd.jpeg" class="option-img" width="100"><br>B</label>
-      <label><input type="radio" name="answer_57" value="C">
-        <img src="./images/tf1_57_T3_ss2_pd.jpeg" class="option-img" width="100"><br>C</label>
-      <label><input type="radio" name="answer_57" value="D">
-        <img src="./images/tf1_57_T4_ss2_pd.jpeg" class="option-img" width="100"><br>D</label>
-    </div>
-    <button type="submit">Antwort abgeben</button>
-  </form>
-  <div class="result" id="result_57"></div>
-</div>
-<div class="item-block">
-  <h2>Item 58</h2>
-  <p><strong>Welche Figur vervollständigt die Matrix?</strong></p>
-  <img src="./images/tf1_58_M_ss3.jpeg" alt="Matrix Item 58" class="matrix-img" width="300">
-  <form class="itemForm">
-    <div class="options">
-      <label><input type="radio" name="answer_58" value="A">
-        <img src="./images/tf1_58_T1_ss3_pd.jpeg" class="option-img" width="100"><br>A</label>
-      <label><input type="radio" name="answer_58" value="B">
-        <img src="./images/tf1_58_T2_ss3_pd.jpeg" class="option-img" width="100"><br>B</label>
-      <label><input type="radio" name="answer_58" value="C">
-        <img src="./images/tf1_58_T3_ss3_pd.jpeg" class="option-img" width="100"><br>C</label>
-      <label><input type="radio" name="answer_58" value="D">
-        <img src="./images/tf1_58_T4_ss3_pd.jpeg" class="option-img" width="100"><br>D</label>
-    </div>
-    <button type="submit">Antwort abgeben</button>
-  </form>
-  <div class="result" id="result_58"></div>
-</div>
+  <div class="item-block">
+    <h2>Item 57</h2>
+    <p><strong>Welche Figur vervollständigt die Matrix?</strong></p>
+    <img src="./images/tf1_57_M_ss2.jpeg" alt="Matrix Item 57" class="matrix-img" width="300">
+    <form class="itemForm">
+      <div class="options">
+        <label><input type="radio" name="answer_57" value="A">
+          <img src="./images/tf1_57_T1_ss2_pd.jpeg" class="option-img" width="100"><br>A</label>
+        <label><input type="radio" name="answer_57" value="B">
+          <img src="./images/tf1_57_T2_ss2_pd.jpeg" class="option-img" width="100"><br>B</label>
+        <label><input type="radio" name="answer_57" value="C">
+          <img src="./images/tf1_57_T3_ss2_pd.jpeg" class="option-img" width="100"><br>C</label>
+        <label><input type="radio" name="answer_57" value="D">
+          <img src="./images/tf1_57_T4_ss2_pd.jpeg" class="option-img" width="100"><br>D</label>
+      </div>
+      <button type="submit">Antwort abgeben</button>
+    </form>
+    <div class="result" id="result_57"></div>
+  </div>
+  <div class="item-block">
+    <h2>Item 58</h2>
+    <p><strong>Welche Figur vervollständigt die Matrix?</strong></p>
+    <img src="./images/tf1_58_M_ss3.jpeg" alt="Matrix Item 58" class="matrix-img" width="300">
+    <form class="itemForm">
+      <div class="options">
+        <label><input type="radio" name="answer_58" value="A">
+          <img src="./images/tf1_58_T1_ss3_pd.jpeg" class="option-img" width="100"><br>A</label>
+        <label><input type="radio" name="answer_58" value="B">
+          <img src="./images/tf1_58_T2_ss3_pd.jpeg" class="option-img" width="100"><br>B</label>
+        <label><input type="radio" name="answer_58" value="C">
+          <img src="./images/tf1_58_T3_ss3_pd.jpeg" class="option-img" width="100"><br>C</label>
+        <label><input type="radio" name="answer_58" value="D">
+          <img src="./images/tf1_58_T4_ss3_pd.jpeg" class="option-img" width="100"><br>D</label>
+      </div>
+      <button type="submit">Antwort abgeben</button>
+    </form>
+    <div class="result" id="result_58"></div>
+  </div>
 
-<div class="item-block">
-  <h2>Item 59</h2>
-  <p><strong>Welche Figur vervollständigt die Matrix?</strong></p>
-  <img src="./images/tf1_59_M_ss1.jpeg" alt="Matrix Item 59" class="matrix-img" width="300">
-  <form class="itemForm">
-    <div class="options">
-      <label><input type="radio" name="answer_59" value="A">
-        <img src="./images/tf1_59_T1_ss1_pd.jpeg" class="option-img" width="100"><br>A</label>
-      <label><input type="radio" name="answer_59" value="B">
-        <img src="./images/tf1_59_T2_ss1_pd.jpeg" class="option-img" width="100"><br>B</label>
-      <label><input type="radio" name="answer_59" value="C">
-        <img src="./images/tf1_59_T3_ss1_pd.jpeg" class="option-img" width="100"><br>C</label>
-      <label><input type="radio" name="answer_59" value="D">
-        <img src="./images/tf1_59_T4_ss1_pd.jpeg" class="option-img" width="100"><br>D</label>
-    </div>
-    <button type="submit">Antwort abgeben</button>
-  </form>
-  <div class="result" id="result_59"></div>
-</div>
+  <div class="item-block">
+    <h2>Item 59</h2>
+    <p><strong>Welche Figur vervollständigt die Matrix?</strong></p>
+    <img src="./images/tf1_59_M_ss1.jpeg" alt="Matrix Item 59" class="matrix-img" width="300">
+    <form class="itemForm">
+      <div class="options">
+        <label><input type="radio" name="answer_59" value="A">
+          <img src="./images/tf1_59_T1_ss1_pd.jpeg" class="option-img" width="100"><br>A</label>
+        <label><input type="radio" name="answer_59" value="B">
+          <img src="./images/tf1_59_T2_ss1_pd.jpeg" class="option-img" width="100"><br>B</label>
+        <label><input type="radio" name="answer_59" value="C">
+          <img src="./images/tf1_59_T3_ss1_pd.jpeg" class="option-img" width="100"><br>C</label>
+        <label><input type="radio" name="answer_59" value="D">
+          <img src="./images/tf1_59_T4_ss1_pd.jpeg" class="option-img" width="100"><br>D</label>
+      </div>
+      <button type="submit">Antwort abgeben</button>
+    </form>
+    <div class="result" id="result_59"></div>
+  </div>
 
-<div class="item-block">
-  <h2>Item 73</h2>
-  <p><strong>Welche Figur vervollständigt die Matrix?</strong></p>
-  <img src="./images/tf1_73_M_ss3.jpeg" alt="Matrix Item 73" class="matrix-img" width="300">
-  <form class="itemForm">
-    <div class="options">
-      <label><input type="radio" name="answer_73" value="A">
-        <img src="./images/tf1_73_T1_ss3_pd.jpeg" class="option-img" width="100"><br>A</label>
-      <label><input type="radio" name="answer_73" value="B">
-        <img src="./images/tf1_73_T2_ss3_pd.jpeg" class="option-img" width="100"><br>B</label>
-      <label><input type="radio" name="answer_73" value="C">
-        <img src="./images/tf1_73_T3_ss3_pd.jpeg" class="option-img" width="100"><br>C</label>
-      <label><input type="radio" name="answer_73" value="D">
-        <img src="./images/tf1_73_T4_ss3_pd.jpeg" class="option-img" width="100"><br>D</label>
-    </div>
-    <button type="submit">Antwort abgeben</button>
-  </form>
-  <div class="result" id="result_73"></div>
-</div>
+  <div class="item-block">
+    <h2>Item 73</h2>
+    <p><strong>Welche Figur vervollständigt die Matrix?</strong></p>
+    <img src="./images/tf1_73_M_ss3.jpeg" alt="Matrix Item 73" class="matrix-img" width="300">
+    <form class="itemForm">
+      <div class="options">
+        <label><input type="radio" name="answer_73" value="A">
+          <img src="./images/tf1_73_T1_ss3_pd.jpeg" class="option-img" width="100"><br>A</label>
+        <label><input type="radio" name="answer_73" value="B">
+          <img src="./images/tf1_73_T2_ss3_pd.jpeg" class="option-img" width="100"><br>B</label>
+        <label><input type="radio" name="answer_73" value="C">
+          <img src="./images/tf1_73_T3_ss3_pd.jpeg" class="option-img" width="100"><br>C</label>
+        <label><input type="radio" name="answer_73" value="D">
+          <img src="./images/tf1_73_T4_ss3_pd.jpeg" class="option-img" width="100"><br>D</label>
+      </div>
+      <button type="submit">Antwort abgeben</button>
+    </form>
+    <div class="result" id="result_73"></div>
+  </div>
 
-<div class="item-block">
-  <h2>Item 74</h2>
-  <p><strong>Welche Figur vervollständigt die Matrix?</strong></p>
-  <img src="./images/tf1_74_M_ss1.jpeg" alt="Matrix Item 74" class="matrix-img" width="300">
-  <form class="itemForm">
-    <div class="options">
-      <label><input type="radio" name="answer_74" value="A">
-        <img src="./images/tf1_74_T1_ss1_pd.jpeg" class="option-img" width="100"><br>A</label>
-      <label><input type="radio" name="answer_74" value="B">
-        <img src="./images/tf1_74_T2_ss1_pd.jpeg" class="option-img" width="100"><br>B</label>
-      <label><input type="radio" name="answer_74" value="C">
-        <img src="./images/tf1_74_T3_ss1_pd.jpeg" class="option-img" width="100"><br>C</label>
-      <label><input type="radio" name="answer_74" value="D">
-        <img src="./images/tf1_74_T4_ss1_pd.jpeg" class="option-img" width="100"><br>D</label>
-    </div>
-    <button type="submit">Antwort abgeben</button>
-  </form>
-  <div class="result" id="result_74"></div>
-</div>
+  <div class="item-block">
+    <h2>Item 74</h2>
+    <p><strong>Welche Figur vervollständigt die Matrix?</strong></p>
+    <img src="./images/tf1_74_M_ss1.jpeg" alt="Matrix Item 74" class="matrix-img" width="300">
+    <form class="itemForm">
+      <div class="options">
+        <label><input type="radio" name="answer_74" value="A">
+          <img src="./images/tf1_74_T1_ss1_pd.jpeg" class="option-img" width="100"><br>A</label>
+        <label><input type="radio" name="answer_74" value="B">
+          <img src="./images/tf1_74_T2_ss1_pd.jpeg" class="option-img" width="100"><br>B</label>
+        <label><input type="radio" name="answer_74" value="C">
+          <img src="./images/tf1_74_T3_ss1_pd.jpeg" class="option-img" width="100"><br>C</label>
+        <label><input type="radio" name="answer_74" value="D">
+          <img src="./images/tf1_74_T4_ss1_pd.jpeg" class="option-img" width="100"><br>D</label>
+      </div>
+      <button type="submit">Antwort abgeben</button>
+    </form>
+    <div class="result" id="result_74"></div>
+  </div>
 
-<div class="item-block">
-  <h2>Item 75</h2>
-  <p><strong>Welche Figur vervollständigt die Matrix?</strong></p>
-  <img src="./images/tf1_75_M_ss2.jpeg" alt="Matrix Item 75" class="matrix-img" width="300">
-  <form class="itemForm">
-    <div class="options">
-      <label><input type="radio" name="answer_75" value="A">
-        <img src="./images/tf1_75_T1_ss2_pd.jpeg" class="option-img" width="100"><br>A</label>
-      <label><input type="radio" name="answer_75" value="B">
-        <img src="./images/tf1_75_T2_ss2_pd.jpeg" class="option-img" width="100"><br>B</label>
-      <label><input type="radio" name="answer_75" value="C">
-        <img src="./images/tf1_75_T3_ss2_pd.jpeg" class="option-img" width="100"><br>C</label>
-      <label><input type="radio" name="answer_75" value="D">
-        <img src="./images/tf1_75_T4_ss2_pd.jpeg" class="option-img" width="100"><br>D</label>
-    </div>
-    <button type="submit">Antwort abgeben</button>
-  </form>
-  <div class="result" id="result_75"></div>
-</div>
-<!-- ENDE ITEM BLÖCKE -->
+  <div class="item-block">
+    <h2>Item 75</h2>
+    <p><strong>Welche Figur vervollständigt die Matrix?</strong></p>
+    <img src="./images/tf1_75_M_ss2.jpeg" alt="Matrix Item 75" class="matrix-img" width="300">
+    <form class="itemForm">
+      <div class="options">
+        <label><input type="radio" name="answer_75" value="A">
+          <img src="./images/tf1_75_T1_ss2_pd.jpeg" class="option-img" width="100"><br>A</label>
+        <label><input type="radio" name="answer_75" value="B">
+          <img src="./images/tf1_75_T2_ss2_pd.jpeg" class="option-img" width="100"><br>B</label>
+        <label><input type="radio" name="answer_75" value="C">
+          <img src="./images/tf1_75_T3_ss2_pd.jpeg" class="option-img" width="100"><br>C</label>
+        <label><input type="radio" name="answer_75" value="D">
+          <img src="./images/tf1_75_T4_ss2_pd.jpeg" class="option-img" width="100"><br>D</label>
+      </div>
+      <button type="submit">Antwort abgeben</button>
+    </form>
+    <div class="result" id="result_75"></div>
+  </div>
+  <!-- ENDE ITEM BLÖCKE -->
 
   <script type="module">
     import TestDataManager from "../scripts/TestDataManager.js";
@@ -239,31 +309,31 @@
 
         testDataManager.addTestData(times, isCorrect, difficulty);
 
-    // Hide the current item block after a short delay
-    setTimeout(() => {
-      const currentItem = form.closest(".item-block");
-      currentItem.style.display = "none";
+        // Hide the current item block after a short delay
+        setTimeout(() => {
+          const currentItem = form.closest(".item-block");
+          currentItem.style.display = "none";
 
-      // Show the next item block
-      const nextItem = currentItem.nextElementSibling;
-      if (nextItem && nextItem.classList.contains("item-block")) {
-        nextItem.style.display = "block";
-        timer.startTimer(); // Restart the timer for the next item
-      } else {
-        // If no more items, save and log the results
-        testDataManager.save();
-        console.log("Test Data:", testDataManager.getData());
-        window.location.href = '../games/odd-one-out-explanation.html'; // Redirect to the game selection page after the test
-      }
-    }, 0); //delay
-  });
-});
+          // Show the next item block
+          const nextItem = currentItem.nextElementSibling;
+          if (nextItem && nextItem.classList.contains("item-block")) {
+            nextItem.style.display = "block";
+            timer.startTimer(); // Restart the timer for the next item
+          } else {
+            // If no more items, save and log the results
+            testDataManager.save();
+            console.log("Test Data:", testDataManager.getData());
+            window.location.href = '../games/odd-one-out-explanation.html'; // Redirect to the game selection page after the test
+          }
+        }, 0); //delay
+      });
+    });
 
     window.addEventListener("load", () => {
       timer.startTimer();
     });
 
-    
+
   </script>
 </body>
 
