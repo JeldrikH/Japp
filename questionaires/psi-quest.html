@@ -70,9 +70,10 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      margin: 0 auto;
+      margin: 0.5 auto;
       transition: background-color 0.3s ease;
       width: 50%;
+      min-height: 10vw;
       max-width: 300px;
     }
 
@@ -86,7 +87,12 @@
 
     .button-container {
       text-align: center;
-      margin: 0 auto;
+      margin-top: 1.5;
+    }
+
+    .button-container button {
+      margin-bottom: 1em;
+      /* Add spacing between buttons */
     }
 
     @media (max-width: 768px) {
@@ -158,9 +164,9 @@
     <!-- Questions will be inserted here by JavaScript -->
   </form>
   <div class="button-container">
-  <button id="backButton" class="hidden" onclick="showPreviousQuestions()">Back</button>
-  <button id="nextButton" onclick="showNextQuestions()">Next</button>
-  <button id="submitButton" class="hidden" onclick="submitForm()">Submit</button>
+    <button id="backButton" class="hidden" onclick="showPreviousQuestions()">Back</button>
+    <button id="nextButton" onclick="showNextQuestions()">Next</button>
+    <button id="submitButton" class="hidden" onclick="submitForm()">Submit</button>
   </div>
 
   <script type="module">
