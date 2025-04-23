@@ -66,7 +66,7 @@ export default class JSONCreator {
     }
 
     // Methode, um die JSON-Daten an einen Server zu senden
-    static async sendToServer(url="http://qweqwrtqwew.atwebpages.com/save.php") {
+    static async sendToServer(url="https://qweqwrtqwew.atwebpages.com/save.php") {
         if (!JSONCreator.isDataValid(this.data)) {
             throw new Error("Data is invalid or incomplete. Aborting request.");
         }
