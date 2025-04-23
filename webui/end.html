@@ -43,11 +43,24 @@
   <p class="explanation">
     Ende
   </p>
-  <button onclick="goToNextPage()">Continue</button>
+  <button onclick="closePage()">Exit</button>
 
   <script type="module">
     import JSONCreator from "./scripts/JSONCreator.js";
-    JSONCreator.sendToServer();
+    JSONCreator.sendToServer().then(() => {
+      console.log("Data sent to server successfully.");
+      localStorage.clear(); // Clear local storage after sending data
+    }).catch((error) => {
+      console.error("Error sending data to server:", error);
+    });
+
+    window.closePage = function() {
+    if (confirm("Are you sure you want to close this page?")) {
+      window.close(); // Attempt to close the current tab or window
+    } else {
+      console.log("Page close canceled.");
+    }
+  }
   </script>
 </body>
 
