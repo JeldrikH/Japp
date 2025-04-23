@@ -20,7 +20,6 @@
       text-align: center;
       margin-bottom: 1.5em;
       font-size: 1.5rem;
-      /* Adjust font size for better readability */
     }
 
     .question {
@@ -30,12 +29,15 @@
       padding: 1em;
       margin-bottom: 1.5em;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     label {
       display: block;
       font-size: 1rem;
-      /* Adjust font size for smaller screens */
       margin-top: 0.2em;
       color: #555;
     }
@@ -60,6 +62,7 @@
     }
 
     button {
+      display: inline-block;
       padding: 0.75em 1.5em;
       font-size: 1rem;
       background-color: #007BFF;
@@ -67,12 +70,10 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      margin-top: 1em;
+      margin: 0 auto;
       transition: background-color 0.3s ease;
-      width: 100%;
-      /* Make buttons full-width on mobile */
+      width: 50%;
       max-width: 300px;
-      /* Limit button width on larger screens */
     }
 
     button:hover {
@@ -85,7 +86,7 @@
 
     .button-container {
       text-align: center;
-      margin-top: 1.5em;
+      margin: 0 auto;
     }
 
     @media (max-width: 768px) {
@@ -156,7 +157,7 @@
   <form id="psiForm">
     <!-- Questions will be inserted here by JavaScript -->
   </form>
-  <div class="button-container"></div>
+  <div class="button-container">
   <button id="backButton" class="hidden" onclick="showPreviousQuestions()">Back</button>
   <button id="nextButton" onclick="showNextQuestions()">Next</button>
   <button id="submitButton" class="hidden" onclick="submitForm()">Submit</button>
