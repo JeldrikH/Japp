@@ -306,7 +306,7 @@
         }
 
         const elapsedTime = timer.stopTimer();
-        const times = Math.round(elapsedTime / 1000);
+        const times = getElapsedTimeInSeconds();
         const correctAnswer = correctAnswers[itemId];
         const isCorrect = selected.value === correctAnswer ? 1 : 0;
         const difficulty = difficultyMap[itemId] ?? 1;
