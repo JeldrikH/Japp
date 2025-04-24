@@ -1,0 +1,18 @@
+{
+    "welcome": "Welcome!",
+    "enter_name": "Please enter your name below. Once you're done, read the instructions carefully. When you're ready, click the button to proceed to the next page.",
+    "your_name": "Your Name:",
+    "name_placeholder": "Enter your name here",
+    "select_language": "Select Language:",
+    "description": "This is a WebUI that evaluates your skills and background for your job applications.",
+    "next": "Next",
+    "error_empty_name": "Please enter your name before proceeding.",
+    "error_id_generation": "An error occurred while generating the ID. Please try again.",
+
+    "welcome_crt": "Welcome to the CRT Test",
+    "explanation_crt": "In this test, you will be presented with a series of multiple choice tasks. Please read each question carefully and select the best answer.  <br> The first step is a quick CRT test to get a first insight. <br> <span style=\"color: red; font-weight: bold;\">As soon as you press continue the timer will start </span>",
+    "continue": "Continue",
+    "title_crt": "Reasoning Test",
+    "question_crt": "Which figure completes the matrix?",
+    "submit": "Submit Answer"
+}

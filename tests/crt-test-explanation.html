@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CRT Test Explanation</title>
+  <title>Japp</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -33,14 +33,17 @@
   </style>
 </head>
 <body>
-  <h1>Welcome to the CRT Test</h1>
-  <p class="explanation">
-    In this test, you will be presented with a series of multiple choice tasks. Please read each question carefully and select the best answer.  <br> The first step is a quick CRT test to get a first insight. <br> <span style="color: red; font-weight: bold;">As soon as you press continue the timer will start </span><br>Take your time, and do your best!
-  </p>
-  <button onclick="goToNextPage()">Continue</button>
+  <h1 data-lang-key="welcome_crt"></h1>
+  <p class="explanation" data-lang-key="explanation_crt"></p>
+  <button onclick="goToNextPage()" data-lang-key="continue"></button>
 
-  <script>
-    function goToNextPage() {
+  <script type="module">
+    import LanguageManager from "/scripts/LanguageManager.js";
+    const languageManager = new LanguageManager();
+    var selectedLanguage = localStorage.getItem('language') || 'en';
+    languageManager.loadLanguage(selectedLanguage);
+
+    window.goToNextPage = function() {
       window.location.href = 'crt-test.html'; // Replace with the actual path to the next page
     }
   </script>

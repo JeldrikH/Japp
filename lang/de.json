@@ -1,0 +1,19 @@
+{
+    "welcome": "Willkommen!",
+    "enter_name": "Bitte geben Sie unten Ihren Namen ein. Lesen Sie anschließend die Anweisungen sorgfältig durch. Wenn Sie bereit sind, klicken Sie auf die Schaltfläche, um zur nächsten Seite zu gelangen.",
+    "your_name": "Ihr Name:",
+    "name_placeholder": "Geben Sie hier Ihren Namen ein",
+    "select_language": "Sprachauswahl:",
+    "description": "Dies ist eine WebUI, die Ihre Fähigkeiten und Ihren Hintergrund für Ihre Bewerbungen bewertet.",
+    "next": "Weiter",
+    "error_empty_name": "Bitte geben Sie Ihren Namen ein, bevor Sie fortfahren.",
+    "error_id_generation": "Beim Generieren der ID ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.",
+
+    "welcome_crt": "Willkommen zum CRT-Test",
+    "explanation_crt": "In diesem Test werden Ihnen eine Reihe von Multiple-Choice-Aufgaben präsentiert. Bitte lesen Sie jede Frage sorgfältig durch und wählen Sie die beste Antwort aus.  <br> Der erste Schritt ist ein schneller CRT-Test, um einen ersten Einblick zu erhalten. <br> <span style=\"color: red; font-weight: bold;\">Sobald Sie auf Fortfahren drücken, beginnt der Timer </span>",
+    "continue": "Fortfahren",
+    "title_crt": "Denksport-Test",
+    "question_crt": "Welche Figur vervollständigt die Matrix?",
+    "submit": "Antwort abgeben"
+
+  }
