@@ -199,7 +199,12 @@
     import GameDataManager from "../scripts/GameDataManager.js";
     import Timer from "../scripts/Timer.js";
     import Countdown from "../scripts/Countdown.js";
+    import LanguageManager from "/scripts/LanguageManager.js";
 
+    const languageManager = new LanguageManager();
+    var selectedLanguage = localStorage.getItem('language') || 'en';
+    languageManager.loadLanguage(selectedLanguage);
+    
     let level = 1;
     let difficulty = 1;
     let difficultyCounter = 0;

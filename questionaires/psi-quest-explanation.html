@@ -1,23 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Odd One Out Explanation</title>
+  <title>Jabb</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       margin: 2em;
       text-align: center;
     }
+
     h1 {
       color: #333;
     }
+
     .explanation {
       margin: 1.5em 0;
       font-size: 1.2em;
       color: #555;
     }
+
     button {
       padding: 0.5em 1em;
       font-size: 1em;
@@ -27,22 +31,29 @@
       border-radius: 5px;
       cursor: pointer;
     }
+
     button:hover {
       background-color: #0056b3;
     }
   </style>
 </head>
-<body>
-  <h1>Only one more Step</h1>
-  <p class="explanation">
-    At last there will be a couble of questions. There will be no timer anymore. Please answer the questions thoroughly.<br>Take your time, and do your best!
-  </p>
-  <button onclick="goToNextPage()">Continue</button>
 
-  <script>
+<body>
+  <h1 data-lang-key="title_psi_explanation"></h1>
+  <p class="explanation" data-lang-key="explanation_psi"></p>
+  <button onclick="goToNextPage()" data-lang-key="continue"></button>
+
+  <script type="module">
+    import LanguageManager from "/scripts/LanguageManager.js";
+
+    const languageManager = new LanguageManager();
+    var selectedLanguage = localStorage.getItem('language') || 'en';
+    languageManager.loadLanguage(selectedLanguage);
+
     function goToNextPage() {
       window.location.href = 'psi-quest.html'; // Replace with the actual path to the next page
     }
   </script>
 </body>
+
 </html>

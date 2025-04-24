@@ -4,6 +4,7 @@
     "your_name": "Your Name:",
     "name_placeholder": "Enter your name here",
     "select_language": "Select Language:",
+    "description-data": "All data collected through this application is used exclusively for research purposes. The information is processed anonymously.",
     "description": "This is a WebUI that evaluates your skills and background for your job applications.",
     "next": "Next",
     "error_empty_name": "Please enter your name before proceeding.",
