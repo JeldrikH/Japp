@@ -4,6 +4,7 @@
     "your_name": "Ihr Name:",
     "name_placeholder": "Geben Sie hier Ihren Namen ein",
     "select_language": "Sprachauswahl:",
+    "description-data": "Alle über diese Anwendung gesammelten Daten werden ausschließlich zu Forschungszwecken verwendet. Die Informationen werden anonym verarbeitet.",
     "description": "Dies ist eine WebUI, die Ihre Fähigkeiten und Ihren Hintergrund für Ihre Bewerbungen bewertet.",
     "next": "Weiter",
     "error_empty_name": "Bitte geben Sie Ihren Namen ein, bevor Sie fortfahren.",
@@ -14,6 +15,14 @@
     "continue": "Fortfahren",
     "title_crt": "Denksport-Test",
     "question_crt": "Welche Figur vervollständigt die Matrix?",
-    "submit": "Antwort abgeben"
+    "submit": "Antwort abgeben",
 
-  }
+    "welcome_ooo": "Willkommen zum Spiel \"Odd One Out\"",
+    "explanation_ooo": "In diesem Spiel wird Ihnen ein Raster mit 9 Elementen präsentiert. Ein Element hat keine Ähnlichkeiten mit allen anderen Elementen <br> <span style=\"color: red; font-weight: bold;\">Sobald Sie auf Fortfahren drücken, beginnt der Timer </span>",
+    "title_ooo": "Odd One Out",
+    "skip": "Überspringen",
+    "title_psi_explanation": "Nur noch ein Schritt",
+    "explanation_psi": "Zum Schluss gibt es noch ein paar Fragen. Es gibt keinen Timer mehr. Bitte beantworten Sie die Fragen gründlich. <br>Nehmen Sie sich Zeit, und geben Sie Ihr Bestes!",
+
+
+}
