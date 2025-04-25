@@ -205,6 +205,11 @@
     var selectedLanguage = localStorage.getItem('language') || 'en';
     await languageManager.loadLanguage(selectedLanguage);
 
+
+    const languageManager = new LanguageManager();
+    var selectedLanguage = localStorage.getItem('language') || 'en';
+    languageManager.loadLanguage(selectedLanguage);
+    
     let level = 1;
     let difficulty = 1;
     let difficultyCounter = 0;

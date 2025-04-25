@@ -1,0 +1,64 @@
+1) domain kaufen:
+2) Domain auf deinen Raspberry Pi zeigen lassen (cloudflare nutzen falls ip nicht statisch ist, müssen wir jetzt mal schuen, weil es ja business internet ist)
+
+General:
+sudo apt update && sudo apt upgrade -y
+sudo apt install git nginx php php-fpm php-cli unzip curl -y
+
+sudo mkdir -p /var/www/unsere seite/data
+sudo chown -R www-data:www-data /var/www/unsere seite
+
+cd /var/www/ 
+sudo git clone https://github.com/beide repos
+sudo chown -R www-data:www-data my-site
+
+sudo nano /etc/nginx/sites-available/my-site
+nginx skript:
+server {
+    listen 80;
+    server_name deine-domain.de;
+
+    root /var/www/my-site;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php8.1-fpm.sock;
+    }
+
+    location /data/ {
+        deny all;  # schützt JSON-Daten vor direktem Zugriff
+    }
+}
+
+sudo ln -s /etc/nginx/sites-available/my-site /etc/nginx/sites-enabled/
+sudo nginx -t
+sudo systemctl reload nginx
+
+neue save.php
+neue load.php
+neue getid.php
+
+HTTPS aktievieren: (vorher muss domain gekauft weden)
+sudo apt install certbot python3-certbot-nginx -y
+sudo certbot --nginx -d deine-domain.de
+
+git:
+sudo adduser --system --group --disabled-password --home /home/git git
+sudo mkdir -p /var/lib/gitea/{custom,data,log}
+sudo chown -R git:git /var/lib/gitea/
+sudo mkdir /etc/gitea
+sudo chown root:git /etc/gitea
+
+wget -O gitea https://dl.gitea.io/gitea/latest/gitea-1.21.4-linux-arm64
+chmod +x gitea
+sudo mv gitea /usr/local/bin/gitea
+
+sudo systemctl enable gitea
+sudo systemctl start gitea
+
+
