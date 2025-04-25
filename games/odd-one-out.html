@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Odd One Out Game</title>
+  <title>Jabb</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -181,8 +181,8 @@
 </head>
 
 <body>
-  <h1>Odd One Out</h1>
-  <p id="level">Level: 1</p>
+  <h1 data-lang-key="title_ooo"></h1>
+  <p id="level"></p>
   <div id="countdown" class="countdown-container">
     <div class="circle">
       <div class="circle-inner">
@@ -192,7 +192,7 @@
   </div>
   <div class="grid" id="grid"></div>
   <p id="message"></p>
-  <button id="skipButton" onclick="nextLevel(-9)">Skip</button>
+  <button id="skipButton" onclick="nextLevel(-9)" data-lang-key="skip"></button>
 
 
   <script type="module">
@@ -203,8 +203,8 @@
 
     const languageManager = new LanguageManager();
     var selectedLanguage = localStorage.getItem('language') || 'en';
-    languageManager.loadLanguage(selectedLanguage);
-    
+    await languageManager.loadLanguage(selectedLanguage);
+
     let level = 1;
     let difficulty = 1;
     let difficultyCounter = 0;
@@ -236,6 +236,7 @@
 
       var oddOneOutIndex = Math.floor(Math.random() * totalElements);
       var elements = createElements(oddOneOutIndex, difficulty);
+      document.getElementById('level').textContent = languageManager.getTranslation('level') + level;
 
       for (let i = 0; i < totalElements; i++) {
         const pattern = document.createElement('div'); // Outer grid cell
@@ -265,11 +266,9 @@
       timer.stopTimer(); // Stop the timer when the user clicks
       const time = timer.getElapsedTimeInSeconds(); // Get the elapsed time
       gameDataManager.addGameData(difficulty, time, correct); // Save game data
-      console.log(gameDataManager.getData()); // Log the game data for debugging
       const message = document.getElementById('message');
       if (correct === 1) {
-        message.textContent = 'Correct! Moving to the next level...';
-        message.innerHTML = '<span style="color: green; font-weight: bold;">&#9989; Correct! Moving to the next level...</span>';
+        message.innerHTML = languageManager.getTranslation('correct_ooo');
         level++;
         difficultyCounter++;
         if (difficultyCounter >= levelsPerDifficulty) {
@@ -282,20 +281,19 @@
         }
 
       } else if (correct === 0) {
-        message.innerHTML = '<span style="color: red; font-weight: bold;">&#10060; Wrong! Next level will be generated...</span>';
+        message.innerHTML = languageManager.getTranslation('incorrect_ooo');
         difficultyCounter--; // Decrease difficulty counter if wrong
         if (difficultyCounter < 0) {
           difficultyCounter = levelsPerDifficulty - 1; // Reset to last level of previous difficulty
-          difficulty--; // Decrease difficulty if wrong#
+          difficulty--;
           if (difficulty < 1) {
             difficulty = 1; // Bottom out at 1
             difficultyCounter = 0; // Keep it at 0
           }
         }
       } else if (correct === -9) {
-        message.innerHTML = '<span style="color: orange; font-weight: bold;">&#10067; Skipped! Next level will be generated...</span>';
+        message.innerHTML = languageManager.getTranslation('skip_ooo');
       }
-      document.getElementById('level').textContent = `Level: ${level}`;
       generateLevel(level, difficulty); // Regenerate the level
     }
 
@@ -481,7 +479,7 @@
 
     function endGame() {
       gameDataManager.save(); // Save game data when the game ends
-      alert('Game Over! Your score is: ' + level);
+      alert(languageManager.getTranslation("alert_ooo") + level);
       window.location.href = '../questionaires/psi-quest-explanation.html'; // Redirect to the next page after game is over
     }
     // Start the game

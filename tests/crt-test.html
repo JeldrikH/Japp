@@ -301,12 +301,12 @@
         const selected = form.querySelector(`input[name="answer_${itemId}"]:checked`);
 
         if (!selected) {
-          alert("Bitte wähle eine Antwort.");
+          alert(languageManager.getTranslation("alert_crt"));
           return;
         }
 
         const elapsedTime = timer.stopTimer();
-        const times = getElapsedTimeInSeconds();
+        const times = timer.getElapsedTimeInSeconds();
         const correctAnswer = correctAnswers[itemId];
         const isCorrect = selected.value === correctAnswer ? 1 : 0;
         const difficulty = difficultyMap[itemId] ?? 1;

@@ -50,7 +50,7 @@
     var selectedLanguage = localStorage.getItem('language') || 'en';
     languageManager.loadLanguage(selectedLanguage);
 
-    function goToNextPage() {
+    window.goToNextPage=function() {
       window.location.href = 'psi-quest.html'; // Replace with the actual path to the next page
     }
   </script>

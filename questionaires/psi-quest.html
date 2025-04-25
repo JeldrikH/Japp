@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Problem Solving Inventory (PSI)</title>
+  <title>Japp</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -91,120 +91,93 @@
 
     .button-container button {
       margin-bottom: 1em;
-      /* Add spacing between buttons */
     }
 
     @media (max-width: 768px) {
       body {
         padding: 0.5rem;
-        /* Reduce padding for smaller screens */
       }
 
       h2 {
         font-size: 1.25rem;
-        /* Reduce font size for smaller screens */
       }
 
       .question {
         padding: 0.75em;
-        /* Reduce padding for smaller screens */
         margin-bottom: 1em;
-        /* Reduce spacing between questions */
       }
 
       label {
         font-size: 0.9rem;
-        /* Adjust font size for smaller screens */
       }
 
       input[type="radio"] {
         width: 18px;
-        /* Slightly smaller radio buttons */
         height: 18px;
       }
 
       button {
         font-size: 0.9rem;
-        /* Adjust button font size */
         padding: 0.5em 1em;
-        /* Adjust button padding */
       }
     }
 
     @media (max-width: 480px) {
       h2 {
         font-size: 1rem;
-        /* Further reduce font size for very small screens */
       }
 
       .question {
         padding: 0.5em;
-        /* Further reduce padding */
       }
 
       label {
         font-size: 0.85rem;
-        /* Further reduce font size */
       }
 
       button {
         font-size: 0.8rem;
-        /* Further adjust button font size */
         padding: 0.5em;
-        /* Further adjust button padding */
       }
     }
   </style>
 </head>
 
 <body>
-  <h2>Problem Solving Inventory (PSI) - Self Assessment</h2>
+  <h2 data-lang-key="title_psi"></h2>
   <form id="psiForm">
     <!-- Questions will be inserted here by JavaScript -->
   </form>
   <div class="button-container">
-    <button id="backButton" class="hidden" onclick="showPreviousQuestions()">Back</button>
-    <button id="nextButton" onclick="showNextQuestions()">Next</button>
-    <button id="submitButton" class="hidden" onclick="submitForm()">Submit</button>
+    <button id="backButton" class="hidden" onclick="showPreviousQuestions()" data-lang-key="back"></button>
+    <button id="nextButton" onclick="showNextQuestions()" data-lang-key="next"></button>
+    <button id="submitButton" class="hidden" onclick="submitForm()" data-lang-key="submit"></button>
   </div>
 
   <script type="module">
     import QuestionaireDataManager from "../scripts/QuestionaireDataManager.js";
-    const questions = [
-    "Many of the problems I face are too complex for me to solve.",
-    "I make snap judgments and later regret them.",
-    "I am usually able to think of creative and effective alternatives to my problems.",
-    "When confronted with a problem, I stop and think about it before deciding on a next step.",
-    "When solving a problem, I make decisions that I am happy with later.",
-    "When I try to think of possible solutions to a problem, I do not come up with very many alternatives.",
-    "I use a systematic method to compare alternatives and make decisions.",
-    "Even though I work on a problem, sometimes I feel like I’m groping or wandering and not getting down to the real issue.",
-    "When I become aware of a problem, one of the first things I do is try to find out exactly what the problem is.",
-    "I generally act on the first idea that comes to mind in solving a problem.",
-    "I have the ability to solve most problems even though initially no solution is immediately apparent.",
-    "When I have a problem, I think of as many possible ways to handle it as I can until I can’t come up with any more ideas.",
-    "When my first efforts to solve a problem fail, I become uneasy about my ability to handle the situation.",
-    "I make plans to solve a problem and am almost certain that I can make them work.",
-    "Sometimes I do not stop and take time to deal with my problems, but just kind of muddle ahead.",
-    "I trust my ability to solve new and difficult problems.",
-    "When confronted with a problem, I usually first survey the situation to determine the relevant information.",
-    "When considering solutions to a problem, I do not take the time to assess the potential success of each alternative.",
-    "After making a decision, the actual outcome is usually similar to what I had anticipated.",
-    "I try to predict the result of a particular course of action."
-  ];
+    import LanguageManager from "/scripts/LanguageManager.js";
+
+    const languageManager = new LanguageManager();
+    var selectedLanguage = localStorage.getItem('language') || 'en';
+    await languageManager.loadLanguage(selectedLanguage);
+    const questions = [];
+
+    for(let i = 1; i <= 20; i++) {
+      questions.push(languageManager.getTranslation(`psi_${i}`));
+    }
     const subscales = [
     "PSC", "AAS", "PC", "PC", "PSC", "PC", "PC", "PSC", "PC", "AAS",
     "PSC", "PC", "PSC", "PSC", "AAS", "PSC", "PC", "PC", "PSC", "PC"
   ];
 
+  
     const scaleLabels = [
-      "1 - Strongly Agree",
-      "2 - Moderately Agree",
-      "3 - Slightly Agree",
-      "4 - Slightly Disagree",
-      "5 - Moderately Disagree",
-      "6 - Strongly Disagree"
     ];
+
+    for(let i = 1; i <= 6; i++) {
+      scaleLabels.push(languageManager.getTranslation(`psi_scale_${i}`));
+    }
 
     const form = document.getElementById("psiForm");
     const questionaireDataManager = new QuestionaireDataManager(); // Create an instance of QuestionaireDataManager
@@ -318,7 +291,7 @@
       const data = new FormData(form);
 
       if (!allAnswersValid()) {
-        alert("Please answer all questions before proceeding.");
+        alert(languageManager.getTranslation("alert_form_psi"));
         return;
       }
       saveAnswers(); // Save the answers before moving to the next set
@@ -345,7 +318,7 @@
     // Function to submit the form
     window.submitForm = function () {
       if (!allAnswersValid()) {
-        alert("Please answer all questions before proceeding.");
+        alert(languageManager.getTranslation("alert_form_psi"));
         return;
       }
       saveAnswers(); // Save the answers before moving to the next set
@@ -363,8 +336,7 @@
       }
       // Save and log the results
       questionaireDataManager.save();
-      console.log("Questionnaire Data:", questionaireDataManager.getData());
-      alert("Thank you! Your responses have been recorded.");
+      alert(languageManager.getTranslation("alert_submit"));
       window.location.href = '../end.html'; // Redirect to the end page
     };
   </script>
